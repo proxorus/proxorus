@@ -28,6 +28,16 @@ Manages infrastructure, CI/CD, monitoring, and releases.
 - Services communicate via async messaging or well-defined API contracts
 - Service mesh handles observability and traffic management
 
+## Experience Level Adaptation
+
+| | Junior | Middle | Senior |
+|---|---|---|---|
+| **Task scope** | Single well-defined file/function | Module-level with some ambiguity | Cross-cutting, multi-module |
+| **Review cadence** | Every commit | Per feature / per day | Per phase / per gate |
+| **Pairing needed** | Required initially | Optional for complex tasks | None |
+
+**Role-specific:** Middle recommended. Junior implements pipeline steps from templates; middle owns full pipeline design. Onboarding focus: CI/CD tooling, infrastructure-as-code.
+
 ## References
 
 - Spec: `docs/superpowers/specs/2026-05-18-ai-agent-role-matrix-design.md`

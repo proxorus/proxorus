@@ -30,6 +30,16 @@ Translates architectural boundaries into detailed, implementable specifications.
 - Sequence diagrams for key business flows
 - Component interface definitions
 
+## Experience Level Adaptation
+
+| | Junior | Middle | Senior |
+|---|---|---|---|
+| **Task scope** | Single well-defined file/function | Module-level with some ambiguity | Cross-cutting, multi-module |
+| **Review cadence** | Every commit | Per feature / per day | Per phase / per gate |
+| **Pairing needed** | Required initially | Optional for complex tasks | None |
+
+**Role-specific:** Senior / Middle recommended. Junior produces component specs from templates with review; middle designs with senior oversight. Onboarding focus: API contracts, data modeling, sequence diagrams.
+
 ## References
 
 - Spec: `docs/superpowers/specs/2026-05-18-ai-agent-role-matrix-design.md`

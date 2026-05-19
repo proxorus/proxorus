@@ -32,22 +32,39 @@ This repo defines an **AI agent role matrix** for DDD-based software development
 
 ## OpenCode agents & skills
 
-Five subagents implement the lifecycle groups; ten skills encode individual role procedures.
+Five subagents implement the lifecycle groups; eleven skills encode individual role procedures.
 
 ### Agents (`.opencode/agents/`)
-| Agent | Lifecycle group | Permission |
-|---|---|---|
-| `onboarding-agent` | Ввод в проект | read + bash |
-| `planning-agent` | Планирование + Утверждение | read + bash |
-| `design-agent` | Проектирование | read + bash |
-| `alignment-agent` | Согласование | read-only (gate) |
-| `development-agent` | Реализация + QA + Публикация + Post-Production | edit + bash |
+| Agent | Model | Lifecycle group | Permission |
+|---|---|---|---|
+| `onboarding-agent` | claude-opus-4-6 | Ввод в проект | read + bash |
+| `planning-agent` | claude-sonnet-4-6 | Планирование + Утверждение | read + bash |
+| `design-agent` | claude-opus-4-6 | Проектирование | read + bash |
+| `alignment-agent` | claude-sonnet-4-6 | Согласование | read-only (gate) |
+| `development-agent` | claude-sonnet-4-6 | Реализация + QA + Публикация + Post-Production | edit + bash |
 
-**Transitions:** onboarding → planning → design → alignment → development → alignment → release
+**Transitions:** onboarding → planning → design → alignment → development → alignment → QA → release
+
+**Gate rules:** Every transition requires the upstream gate (Code Reviewer / QA) to pass before proceeding.
 
 ### Skills (`.opencode/skills/<role>/SKILL.md`)
-Load via `skill` tool when a task matches the role:
-`domain-analyst`, `system-architect`, `code-reviewer`, `core-domain-developer`, `integration-developer`, `solution-assembler`, `qa-engineer`, `devops-engineer`, `project-manager`, `system-designer`
+
+| Skill | Role | Tier |
+|---|---|---|
+| `domain-analyst` | Core | High-Capability |
+| `system-architect` | Core | High-Capability |
+| `code-reviewer` | Core | Standard |
+| `core-domain-developer` | Implementation | High-Capability |
+| `integration-developer` | Implementation | Standard |
+| `solution-assembler` | Implementation | Efficiency |
+| `qa-engineer` | Verification | Standard |
+| `devops-engineer` | Delivery | Efficiency |
+| `project-manager` | Planning | Efficiency |
+| `system-designer` | Design | Standard |
+| `ai-ops-engineer` | AI Operations | Standard |
+
+### Templates (`.opencode/templates/`)
+`onboarding-report.md`, `sign-off-package.md`, `design-spec.md`, `review-report.md`, `adr.md`, `ubiquitous-language-glossary.md`
 
 ## Existing instruction sources
 

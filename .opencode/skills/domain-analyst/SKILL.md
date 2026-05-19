@@ -38,6 +38,26 @@ A core DDD role responsible for translating stakeholder requirements into a doma
 - Ubiquitous language glossary
 - Core aggregate / entity / value object candidates
 
+## Role Activation by Project Stage
+
+Domain Analyst priority shifts across non-greenfield stages:
+
+| Stage | Priority | Focus |
+|---|---|---|
+| **Support & Maintenance** | 3rd | Triage domain-level bugs, verify fix preserves ubiquitous language |
+| **Refactoring & Codebase Optimization** | Ongoing | Verify refactored code still reflects the domain model |
+| **Monolith → Microservices Split** | **1st** | Identify true bounded contexts — critical step; wrong boundaries mean wrong services |
+
+## Experience Level Adaptation
+
+| | Junior | Middle | Senior |
+|---|---|---|---|
+| **Task scope** | Single well-defined file/function | Module-level with some ambiguity | Cross-cutting, multi-module |
+| **Review cadence** | Every commit | Per feature / per day | Per phase / per gate |
+| **Pairing needed** | Required initially | Optional for complex tasks | None |
+
+**Role-specific:** Senior+ recommended. Junior assists with bounded context documentation under senior guidance; middle handles subdomain classification with review. Onboarding focus: DDD patterns, ubiquitous language.
+
 ## References
 
 - Spec: `docs/superpowers/specs/2026-05-18-ai-agent-role-matrix-design.md`

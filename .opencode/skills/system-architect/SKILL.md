@@ -35,6 +35,26 @@ A core DDD role responsible for ensuring architectural consistency, DDD boundary
 - ADR log
 - Non-functional requirements checklist
 
+## Role Activation by Project Stage
+
+System Architect priority shifts across non-greenfield stages:
+
+| Stage | Priority | Focus |
+|---|---|---|
+| **Support & Maintenance** | Ad-hoc | Evaluate if recurring bugs indicate architectural debt |
+| **Refactoring & Codebase Optimization** | **1st** | Define target architecture, plan refactoring sequence |
+| **Monolith → Microservices Split** | 2nd | Design service topology, data ownership, communication patterns |
+
+## Experience Level Adaptation
+
+| | Junior | Middle | Senior |
+|---|---|---|---|
+| **Task scope** | Single well-defined file/function | Module-level with some ambiguity | Cross-cutting, multi-module |
+| **Review cadence** | Every commit | Per feature / per day | Per phase / per gate |
+| **Pairing needed** | Required initially | Optional for complex tasks | None |
+
+**Role-specific:** Senior+ recommended. Not assigned to juniors. Middle can co-author ADRs under senior architect supervision. Onboarding focus: Architecture Decision Records.
+
 ## References
 
 - Spec: `docs/superpowers/specs/2026-05-18-ai-agent-role-matrix-design.md`

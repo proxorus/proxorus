@@ -40,6 +40,16 @@ Owns estimation, team composition, token budgets, and customer communication.
 - Token budgets per role and phase
 - Team composition proposals
 
+## Experience Level Adaptation
+
+| | Junior | Middle | Senior |
+|---|---|---|---|
+| **Task scope** | Single well-defined file/function | Module-level with some ambiguity | Cross-cutting, multi-module |
+| **Review cadence** | Every commit | Per feature / per day | Per phase / per gate |
+| **Pairing needed** | Required initially | Optional for complex tasks | None |
+
+**Role-specific:** Senior+ recommended. Not suitable for juniors. Middle can manage tracked tasks under senior PM supervision. Onboarding focus: Estimation, risk management, stakeholder communication.
+
 ## References
 
 - Spec: `docs/superpowers/specs/2026-05-18-ai-agent-role-matrix-design.md`

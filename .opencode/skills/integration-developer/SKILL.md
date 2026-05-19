@@ -28,6 +28,16 @@ Implements Support subdomains that enable the product but don't differentiate it
 - Domain ports/interfaces are defined by Domain Analyst / Core Developer
 - Integration code is in Infrastructure layer, not Domain layer
 
+## Experience Level Adaptation
+
+| | Junior | Middle | Senior |
+|---|---|---|---|
+| **Task scope** | Single well-defined file/function | Module-level with some ambiguity | Cross-cutting, multi-module |
+| **Review cadence** | Every commit | Per feature / per day | Per phase / per gate |
+| **Pairing needed** | Required initially | Optional for complex tasks | None |
+
+**Role-specific:** Middle / Junior recommended. Junior handles one adapter at a time from a detailed spec; middle manages full integration flow independently. Onboarding focus: API patterns, error handling, testing.
+
 ## References
 
 - Spec: `docs/superpowers/specs/2026-05-18-ai-agent-role-matrix-design.md`

@@ -45,6 +45,16 @@ A core DDD role acting as a quality gate. All changes must pass through this rol
 - **Request changes** if code quality is below project standard
 - **Approve** only when all checks pass
 
+## Experience Level Adaptation
+
+| | Junior | Middle | Senior |
+|---|---|---|---|
+| **Task scope** | Single well-defined file/function | Module-level with some ambiguity | Cross-cutting, multi-module |
+| **Review cadence** | Every commit | Per feature / per day | Per phase / per gate |
+| **Pairing needed** | Required initially | Optional for complex tasks | None |
+
+**Role-specific:** Senior+ recommended. Middle can co-review with senior as second reviewer; junior observes review process to learn code quality standards and DDD compliance. Onboarding focus: Code quality standards, DDD compliance.
+
 ## References
 
 - Spec: `docs/superpowers/specs/2026-05-18-ai-agent-role-matrix-design.md`

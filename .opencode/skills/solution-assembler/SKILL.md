@@ -28,6 +28,16 @@ Implements Generic subdomains using off-the-shelf solutions. Lowest ToC priority
 - Follow existing project patterns exactly
 - Generic code can be replaced without affecting Core or Support
 
+## Experience Level Adaptation
+
+| | Junior | Middle | Senior |
+|---|---|---|---|
+| **Task scope** | Single well-defined file/function | Module-level with some ambiguity | Cross-cutting, multi-module |
+| **Review cadence** | Every commit | Per feature / per day | Per phase / per gate |
+| **Pairing needed** | Required initially | Optional for complex tasks | None |
+
+**Role-specific:** Junior / Middle recommended. Ideal entry point — well-defined boilerplate, CRUD, config with clear acceptance criteria. Onboarding focus: Language/framework basics, project conventions.
+
 ## References
 
 - Spec: `docs/superpowers/specs/2026-05-18-ai-agent-role-matrix-design.md`

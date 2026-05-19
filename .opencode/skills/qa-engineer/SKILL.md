@@ -29,6 +29,16 @@ Responsible for test strategy, test execution, and acceptance verification.
 3. **Report results** — pass / fail / block
 4. **Block release** on test failure (gate rule)
 
+## Experience Level Adaptation
+
+| | Junior | Middle | Senior |
+|---|---|---|---|
+| **Task scope** | Single well-defined file/function | Module-level with some ambiguity | Cross-cutting, multi-module |
+| **Review cadence** | Every commit | Per feature / per day | Per phase / per gate |
+| **Pairing needed** | Required initially | Optional for complex tasks | None |
+
+**Role-specific:** Middle / Junior recommended. Junior writes tests from defined specs; middle designs test strategy per module. Onboarding focus: Test frameworks, test design, edge cases.
+
 ## References
 
 - Spec: `docs/superpowers/specs/2026-05-18-ai-agent-role-matrix-design.md`

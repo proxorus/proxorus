@@ -29,6 +29,16 @@ Implements the business logic that differentiates the product. Highest ToC prior
 - Ubiquitous language from the Domain Analyst is source of truth for naming
 - No infrastructure concerns in domain code
 
+## Experience Level Adaptation
+
+| | Junior | Middle | Senior |
+|---|---|---|---|
+| **Task scope** | Single well-defined file/function | Module-level with some ambiguity | Cross-cutting, multi-module |
+| **Review cadence** | Every commit | Per feature / per day | Per phase / per gate |
+| **Pairing needed** | Required initially | Optional for complex tasks | None |
+
+**Role-specific:** Senior / Middle recommended. Junior implements well-defined value objects and unit tests under pair programming; middle owns aggregates with senior review. Onboarding focus: Domain logic, DDD tactical patterns.
+
 ## References
 
 - Spec: `docs/superpowers/specs/2026-05-18-ai-agent-role-matrix-design.md`
