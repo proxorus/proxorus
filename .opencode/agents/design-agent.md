@@ -1,6 +1,6 @@
 ---
 description: Use after Customer Sign-Off to produce detailed specifications before implementation.
-model: anthropic/claude-opus-4-6
+model: opencode/big-pickle
 mode: subagent
 permission:
   edit: deny

@@ -1,6 +1,6 @@
 ---
 description: Use for Phase 0 onboarding into an existing project. Reverse-engineers bounded contexts, architecture, ADRs, and conventions from the codebase.
-model: anthropic/claude-opus-4-6
+model: opencode/big-pickle
 mode: subagent
 permission:
   edit: deny

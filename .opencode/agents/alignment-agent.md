@@ -1,6 +1,6 @@
 ---
 description: Use as a gate between design and implementation. Reviews designs and code for DDD compliance, architecture consistency, and quality standards.
-model: anthropic/claude-sonnet-4-6
+model: opencode/big-pickle
 mode: subagent
 permission:
   edit: deny

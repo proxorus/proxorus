@@ -5,31 +5,31 @@
 
   "agent": {
     "onboarding-agent": {
-      "model": "anthropic/claude-opus-4-6",
+      "model": "opencode/big-pickle",
       "mode": "subagent",
       "description": "Phase 0 onboarding: reverse-engineer contexts, architecture, ADRs from existing codebase",
       "permission": { "edit": "deny", "bash": "ask" }
     },
     "planning-agent": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "opencode/big-pickle",
       "mode": "subagent",
       "description": "Discovery & Architecture phases: estimates, team composition, token budgets, sign-off",
       "permission": { "edit": "deny", "bash": "ask" }
     },
     "design-agent": {
-      "model": "anthropic/claude-opus-4-6",
+      "model": "opencode/big-pickle",
       "mode": "subagent",
       "description": "System Design: API contracts, data models, interfaces, token budgets",
       "permission": { "edit": "deny", "bash": "ask" }
     },
     "alignment-agent": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "opencode/big-pickle",
       "mode": "subagent",
       "description": "Gate: DDD compliance, architecture verification, code review",
       "permission": { "edit": "deny", "bash": "deny" }
     },
     "development-agent": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "opencode/big-pickle",
       "mode": "subagent",
       "description": "Full delivery: Core domain, integrations, generic assembly, tests, CI/CD, deploy",
       "permission": { "edit": "allow", "bash": "ask" }

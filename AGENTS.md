@@ -37,11 +37,11 @@ Five subagents implement the lifecycle groups; eleven skills encode individual r
 ### Agents (`.opencode/agents/`)
 | Agent | Model | Lifecycle group | Permission |
 |---|---|---|---|
-| `onboarding-agent` | claude-opus-4-6 | Ввод в проект | read + bash |
-| `planning-agent` | claude-sonnet-4-6 | Планирование + Утверждение | read + bash |
-| `design-agent` | claude-opus-4-6 | Проектирование | read + bash |
-| `alignment-agent` | claude-sonnet-4-6 | Согласование | read-only (gate) |
-| `development-agent` | claude-sonnet-4-6 | Реализация + QA + Публикация + Post-Production | edit + bash |
+| `onboarding-agent` | big-pickle | Ввод в проект | read + bash |
+| `planning-agent` | big-pickle | Планирование + Утверждение | read + bash |
+| `design-agent` | big-pickle | Проектирование | read + bash |
+| `alignment-agent` | big-pickle | Согласование | read-only (gate) |
+| `development-agent` | big-pickle | Реализация + QA + Публикация + Post-Production | edit + bash |
 
 **Transitions:** onboarding → planning → design → alignment → development → alignment → QA → release
 

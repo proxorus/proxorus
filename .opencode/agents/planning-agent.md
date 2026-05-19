@@ -1,6 +1,6 @@
 ---
 description: Use during Discovery (Phase 1) and Architecture (Phase 2). Produces estimates, team composition, and sign-off package.
-model: anthropic/claude-sonnet-4-6
+model: opencode/big-pickle
 mode: subagent
 permission:
   edit: deny

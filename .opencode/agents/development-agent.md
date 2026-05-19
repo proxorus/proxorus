@@ -1,6 +1,6 @@
 ---
 description: Use for all implementation work — Core domain, Support integrations, Generic assembly, testing, DevOps, and deployment. Full delivery team in one agent.
-model: anthropic/claude-sonnet-4-6
+model: opencode/big-pickle
 mode: subagent
 permission:
   edit: allow
