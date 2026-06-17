@@ -14,7 +14,7 @@ OpenCode will automatically load `opencode.json` and `AGENTS.md` when you open t
 
 Load a skill via the `skill` tool when a task matches its role description. Each `SKILL.md` contains activation triggers, workflow, experience level adaptation, and outputs.
 
-Available skills: `domain-analyst`, `system-architect`, `code-reviewer`, `core-domain-developer`, `integration-developer`, `solution-assembler`, `qa-engineer`, `devops-engineer`, `project-manager`, `system-designer`, `ai-ops-engineer`.
+Available skills: `domain-analyst`, `system-architect`, `code-reviewer` (includes Branch Analysis Mode for git diff business logic extraction), `core-domain-developer`, `integration-developer`, `solution-assembler`, `qa-engineer`, `devops-engineer`, `project-manager`, `system-designer`, `ai-ops-engineer`.
 
 ## Using Agents
 
@@ -22,7 +22,7 @@ Agents orchestrate multiple skills across a lifecycle phase. Defined in `.openco
 
 | Agent | When | Skills loaded |
 |---|---|---|
-| `onboarding-agent` | Phase 0: reverse-engineer existing codebase | domain-analyst, system-architect, code-reviewer |
+| `onboarding-agent` | Phase 0: reverse-engineer existing codebase (`scope: full`) or branch diff analysis (`scope: diff`) | domain-analyst, system-architect, code-reviewer |
 | `planning-agent` | Phase 1-2: discovery, estimation, sign-off | domain-analyst, system-architect, project-manager, ai-ops-engineer |
 | `design-agent` | After sign-off: detailed component design | system-designer, system-architect, domain-analyst, ai-ops-engineer |
 | `alignment-agent` | Gate between phases: design & code review | domain-analyst, system-architect, code-reviewer |
@@ -37,6 +37,12 @@ Agents orchestrate multiple skills across a lifecycle phase. Defined in `.openco
 | Design → Development | Design review passed |
 | Development → QA | Implementation complete |
 | QA → Release | All tests pass, code reviewed |
+
+## Scripts
+
+Utility scripts in `.opencode/scripts/`:
+
+- `branch-context.sh` — extract business logic delta from a git branch (`--base main --head feature`). Used by `onboarding-agent` in `scope: diff` mode and by `code-reviewer`'s Branch Analysis Mode.
 
 ## Templates
 

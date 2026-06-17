@@ -55,6 +55,55 @@ A core DDD role acting as a quality gate. All changes must pass through this rol
 
 **Role-specific:** Senior+ recommended. Middle can co-review with senior as second reviewer; junior observes review process to learn code quality standards and DDD compliance. Onboarding focus: Code quality standards, DDD compliance.
 
+## Branch Analysis Mode
+
+Use this mode when you need to understand what business logic was implemented in an existing git branch — before making your own changes on top of it.
+
+### Workflow
+
+1. **Run branch context extractor**
+   ```bash
+   .opencode/scripts/branch-context.sh --base main --head feature-branch
+   ```
+   This produces: commit log, file stats, directory groupings (bounded context hints), new/deleted files, domain concept definitions, test changes.
+
+2. **Identify bounded contexts touched** — use the "Changed by Directory" output to map paths to bounded contexts (from the project's context map or by naming conventions).
+
+3. **Extract domain intent per commit**
+   - Read commit messages to reconstruct what tasks were done
+   - For each commit, inspect key files (domain entities, services, events)
+   - Classify changes as Core / Support / Generic per DDD subdomain classification
+
+4. **Map new domain concepts**
+   - From the "Possible Domain Concepts" output, trace each new class/record/interface back to its context
+   - Determine if it's a new aggregate, entity, value object, domain event, or domain service
+   - Check if it references or extends existing domain types
+
+5. **Assess architectural impact**
+   - Did the change cross bounded context boundaries?
+   - Are dependencies flowing in the correct direction (Core ← Support ← Generic)?
+   - Was ubiquitous language preserved or introduced correctly?
+
+6. **Produce Branch Impact Summary**
+   Document in `onboarding-report.md` format, but scoped to the branch delta:
+
+   ```
+   ## Branch Impact Summary
+   - **Branch:** feature/xyz
+   - **Commits analyzed:** N
+   - **Bounded contexts touched:** [list]
+   - **New domain concepts:** [entity/value objects/services]
+   - **Modified aggregates:** [existing aggregates affected]
+   - **Architectural concerns:** [if any]
+   - **Test coverage delta:** [test files changed / assertions added]
+   ```
+
+### When to use
+
+- Before implementing additional changes on top of an unfamiliar branch
+- When onboarding into an active feature branch mid-sprint
+- When reviewing a PR without prior context on the domain changes
+
 ## References
 
 - Spec: `docs/superpowers/specs/2026-05-18-ai-agent-role-matrix-design.md`
