@@ -14,6 +14,20 @@ A core DDD role acting as a quality gate. All changes must pass through this rol
 - Code quality standards need enforcement
 - Security review is required before merge
 
+## Sufficiency Check
+
+Before starting work, validate that input data is complete and unambiguous:
+
+1. **Check** — review all inputs (design spec or code changes, ADRs, bounded context map) for:
+   - Missing test results or coverage reports
+   - Ambiguous change scope — unclear which bounded contexts are affected
+   - Undefined review criteria or quality bar for the specific change tier
+   - Missing security or compliance requirements context
+   - Incomplete diff or PR description without business rationale
+2. **Ask** — if any issues found, formulate specific questions and present them to the user
+3. **Cycle** — after receiving answers, repeat Check → Ask → Re-check until all questions are resolved
+4. **Proceed** — only begin the review below when no open questions remain
+
 ## Review checklist
 
 ### DDD compliance

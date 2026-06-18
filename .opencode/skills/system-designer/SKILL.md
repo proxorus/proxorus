@@ -14,6 +14,20 @@ Translates architectural boundaries into detailed, implementable specifications.
 - Data models and database schemas need specification
 - Interface definitions needed for implementation
 
+## Sufficiency Check
+
+Before starting work, validate that input data is complete and unambiguous:
+
+1. **Check** — review all inputs (architecture from System Architect — module boundaries, ADRs, technology decisions) for:
+   - Missing or incomplete API contracts or integration points
+   - Ambiguous data ownership or persistence rules
+   - Unclear state machine or aggregate lifecycle definitions
+   - Undefined error handling or boundary failure strategies
+   - Multiple valid design options without guiding principles
+2. **Ask** — if any issues found, formulate specific questions and present them to the user
+3. **Cycle** — after receiving answers, repeat Check → Ask → Re-check until all questions are resolved
+4. **Proceed** — only begin the workflow below when no open questions remain
+
 ## Workflow
 
 1. **Receive architecture** from System Architect (module boundaries, ADRs)

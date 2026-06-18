@@ -190,7 +190,7 @@ Existing Codebase (onboarding) ──→ Stakeholder Requirements (new)
 
 ### Phase 1: Discovery & Analysis
 - Active: Domain Analyst, System Architect, Project Manager, AI Ops Engineer
-- Output: Bounded context map, DDD classification table, ubiquitous language glossary, preliminary time estimates per subdomain for human-only and agent-assisted scenarios, team composition and headcount proposals per scenario, preliminary token budgets per role (agent-assisted scenario)
+- Output: Event Storming diagram, bounded context map, DDD classification table, ubiquitous language glossary, preliminary time estimates per subdomain for human-only and agent-assisted scenarios, team composition and headcount proposals per scenario, preliminary token budgets per role (agent-assisted scenario)
 
 ### Phase 2: Architecture
 - Active: System Architect, Domain Analyst, Project Manager, AI Ops Engineer

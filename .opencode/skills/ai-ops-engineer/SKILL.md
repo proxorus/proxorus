@@ -38,6 +38,20 @@ Owns LLM-specific operational decisions: model selection, token budgets, cost tr
 | System Designer | Standard | API contracts, data models, sequence diagrams; iterative refinement |
 | AI Ops Engineer | Standard | Token budget analysis, model performance comparisons, cost reports |
 
+## Sufficiency Check
+
+Before starting work, validate that input data is complete and unambiguous:
+
+1. **Check** — review all inputs (role assignments, phase definitions, team composition, model availability) for:
+   - Missing or unclear role-to-phase mapping
+   - Ambiguous task volume estimates or complexity ratings
+   - Unknown model availability or pricing for required tiers
+   - Undefined context retention strategy (what context carries between phases)
+   - Unclear cost tolerance or budget constraints from stakeholder
+2. **Ask** — if any issues found, formulate specific questions and present them to the user
+3. **Cycle** — after receiving answers, repeat Check → Ask → Re-check until all questions are resolved
+4. **Proceed** — only begin token estimation below when no open questions remain
+
 ## Token Estimation Methodology
 
 Estimate token consumption per phase using four factors:

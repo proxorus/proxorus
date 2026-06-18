@@ -14,6 +14,20 @@ A core DDD role responsible for translating stakeholder requirements into a doma
 - Subdomain classification (Core / Support / Generic) is needed
 - Ubiquitous language must be established or reconciled
 
+## Sufficiency Check
+
+Before starting work, validate that input data is complete and unambiguous:
+
+1. **Check** — review all inputs (stakeholder requirements, existing codebase, domain expert interviews) for:
+   - Missing or underspecified business goals and scope
+   - Ambiguous or contradictory domain terminology
+   - Unclear boundaries between proposed features
+   - Implicit assumptions about users, workflows, or rules
+   - Multiple possible interpretations that affect subdomain classification
+2. **Ask** — if any issues found, formulate specific questions and present them to the user
+3. **Cycle** — after receiving answers, repeat Check → Ask → Re-check until all questions are resolved
+4. **Proceed** — only begin the workflow below when no open questions remain
+
 ## Workflow
 
 1. **Gather input** — stakeholder requirements, existing codebase, domain expert interviews
@@ -33,6 +47,7 @@ A core DDD role responsible for translating stakeholder requirements into a doma
 
 ## Outputs
 
+- Event Storming diagram
 - Bounded context map (C4 context level)
 - DDD classification table
 - Ubiquitous language glossary

@@ -15,6 +15,20 @@ A core DDD role responsible for ensuring architectural consistency, DDD boundary
 - DDD boundary compliance check is needed
 - Non-functional requirements (scalability, security, performance) are being addressed
 
+## Sufficiency Check
+
+Before starting work, validate that input data is complete and unambiguous:
+
+1. **Check** — review all inputs (bounded context map from Domain Analyst, stakeholder requirements, non-functional requirements) for:
+   - Missing or incomplete bounded context definitions
+   - Ambiguous technology constraints or preferences
+   - Unclear non-functional requirements (scale, security, performance targets)
+   - Undefined integration points or external system dependencies
+   - Multiple viable architectural options without selection criteria
+2. **Ask** — if any issues found, formulate specific questions and present them to the user
+3. **Cycle** — after receiving answers, repeat Check → Ask → Re-check until all questions are resolved
+4. **Proceed** — only begin the workflow below when no open questions remain
+
 ## Workflow
 
 1. **Receive bounded context map** from Domain Analyst

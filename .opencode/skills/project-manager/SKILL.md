@@ -13,6 +13,20 @@ Owns estimation, team composition, token budgets, and customer communication.
 - Phase 2 (Architecture) — refined estimates + staffing
 - Customer Sign-Off Gate — presentation to customer
 
+## Sufficiency Check
+
+Before starting work, validate that input data is complete and unambiguous:
+
+1. **Check** — review all inputs (requirements scope, bounded context map, architecture decisions, team assumptions) for:
+   - Missing or vague scope definitions (what is in/out of MVP)
+   - Unclear priorities or dependencies between features
+   - Ambiguous team composition constraints (skill levels, availability)
+   - Missing stakeholder expectations on timeline or budget
+   - Undefined delivery cadence or phase duration preferences
+2. **Ask** — if any issues found, formulate specific questions and present them to the user
+3. **Cycle** — after receiving answers, repeat Check → Ask → Re-check until all questions are resolved
+4. **Proceed** — only begin estimation work below when no open questions remain
+
 ## Estimation workflow
 
 ### Time estimates (two scenarios in parallel)
