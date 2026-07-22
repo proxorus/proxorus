@@ -21,7 +21,7 @@ These roles maintain continuity of context and architectural integrity throughou
 | Role | Responsibilities | DDD Mapping |
 |---|---|---|
 | **Domain Analyst** | Translates stakeholder requirements into a DDD model: identifies bounded contexts, aggregates, entities, value objects; classifies each subdomain as Core / Support / Generic; maintains the ubiquitous language | All subdomains |
-| **System Architect** | Defines module boundaries, selects technology stack, ensures architectural consistency, manages non-functional requirements (scalability, security, performance), enforces DDD boundaries at the implementation level | Bounded context boundaries |
+| **System Architect** | Defines module boundaries, proposes technology stack options via Developer Technology Gate (DTG), ensures architectural consistency, manages non-functional requirements (scalability, security, performance), enforces DDD boundaries at the implementation level | Bounded context boundaries |
 | **Code Reviewer** | Reviews all changes before merge: checks DDD boundary compliance, code quality, security, test coverage, adherence to conventions; acts as a quality gate | Cross-cutting concern |
 
 ### Implementation Roles — Contextually Activated
@@ -194,7 +194,7 @@ Existing Codebase (onboarding) ──→ Stakeholder Requirements (new)
 
 ### Phase 2: Architecture
 - Active: System Architect, Domain Analyst, Project Manager, AI Ops Engineer
-- Output: System architecture diagram, technology stack decision, module boundaries, refined time estimates and team composition for both scenarios, refined token budgets per role and phase (agent-assisted scenario)
+- Output: System architecture diagram, technology stack proposal (passed through Developer Technology Gate), module boundaries, refined time estimates and team composition for both scenarios, refined token budgets per role and phase (agent-assisted scenario)
 
 ### Customer Sign-Off Gate (before System Design)
 - Active: Domain Analyst, System Architect, Project Manager, AI Ops Engineer
@@ -240,6 +240,7 @@ Existing Codebase (onboarding) ──→ Stakeholder Requirements (new)
 3. **Verification is mandatory**: No implementation bypasses QA and Code Reviewer gates.
 4. **Boundaries are inviolable**: Core Domain code must not depend on Generic subdomain internals. Dependencies flow inward toward Core.
 5. **No implementation without sign-off**: Customer must approve scope, architecture, and time estimates before any code is written. The Customer Sign-Off Gate is mandatory.
+6. **All technology choices pass Developer Technology Gate**: No role may select a technology, framework, library, or infrastructure component autonomously. Before every such choice, the role must present a Technology Proposal (2-3 options with analysis and a recommendation) to the Developer (session operator). If the Developer does not respond or delegates, the role decides but records an Open Technology Question for later resolution.
 
 ## Experience Level Adaptation
 
