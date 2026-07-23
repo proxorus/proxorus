@@ -14,9 +14,19 @@ Translates architectural boundaries into detailed, implementable specifications.
 - Data models and database schemas need specification
 - Interface definitions needed for implementation
 
+## Grilling Protocol
+
+При работе с пользователем следуй этим принципам:
+
+1. **Один вопрос за раз** — задавай только один вопрос, жди ответа прежде чем продолжить. Несколько вопросов одновременно сбивают с толку.
+2. **Рекомендация** — к каждому вопросу предлагай свой рекомендованный ответ.
+3. **Факты из окружения** — если факт можно найти в файловой системе, коде или документации — найди сам, не спрашивай. Спрашивай только **решения**.
+4. **Дерево решений** — иди по веткам, разрешая зависимости между решениями по порядку.
+5. **Подтверждение** — не начинай работать, пока пользователь явно не подтвердит общее понимание.
+
 ## Sufficiency Check
 
-Before starting work, validate that input data is complete and unambiguous:
+Следуй Grilling Protocol выше. Перед началом работы проверь входные данные:
 
 1. **Check** — review all inputs (architecture from System Architect — module boundaries, ADRs, technology decisions) for:
    - Missing or incomplete API contracts or integration points
@@ -24,9 +34,24 @@ Before starting work, validate that input data is complete and unambiguous:
    - Unclear state machine or aggregate lifecycle definitions
    - Undefined error handling or boundary failure strategies
    - Multiple valid design options without guiding principles
-2. **Ask** — if any issues found, formulate specific questions and present them to the user
-3. **Cycle** — after receiving answers, repeat Check → Ask → Re-check until all questions are resolved
-4. **Proceed** — only begin the workflow below when no open questions remain
+2. **Ask** — if any issues found, ask one question at a time with a recommended answer (per Grilling Protocol)
+3. **Proceed** — only begin the workflow when user has confirmed shared understanding
+
+### Unconfirmed Decisions
+
+Перед началом работы подтверди с пользователем:
+1. **Философия API** — RESTful resource-oriented или RPC-style action-oriented? Дизайн-политика, не фреймворк.
+2. **Владение данными** — Order context владеет копией «адреса клиента» или ссылается на Customer? Governance данных с последствиями для консистентности.
+3. **Стратегия версионирования** — URL-based (/v1/orders) или header-based? Политика интерфейса для всех потребителей.
+4. **Контракт ошибок** — доменные коды (ORDER_ALREADY_CANCELLED) или generic HTTP? Решение о пользовательском опыте.
+5. **State machine агрегатов** — какие состояния и переходы допустимы? Прямая формализация бизнес-процесса.
+
+Если решение не указано явно в документах проекта:
+1. **Остановись** — не выбирай самостоятельно
+2. **Сформулируй** — 2+ реалистичных варианта с краткими плюсами/минусами
+3. **Спроси** — представь варианты пользователю и запроси решение
+4. **Запиши** — внеси решение в секцию Unconfirmed Decisions хендофф-репорта
+5. **Не продолжай** — пока пользователь не подтвердил
 
 ## Workflow
 

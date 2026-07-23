@@ -14,9 +14,19 @@ A core DDD role acting as a quality gate. All changes must pass through this rol
 - Code quality standards need enforcement
 - Security review is required before merge
 
+## Grilling Protocol
+
+При работе с пользователем следуй этим принципам:
+
+1. **Один вопрос за раз** — задавай только один вопрос, жди ответа прежде чем продолжить. Несколько вопросов одновременно сбивают с толку.
+2. **Рекомендация** — к каждому вопросу предлагай свой рекомендованный ответ.
+3. **Факты из окружения** — если факт можно найти в файловой системе, коде или документации — найди сам, не спрашивай. Спрашивай только **решения**.
+4. **Дерево решений** — иди по веткам, разрешая зависимости между решениями по порядку.
+5. **Подтверждение** — не начинай работать, пока пользователь явно не подтвердит общее понимание.
+
 ## Sufficiency Check
 
-Before starting work, validate that input data is complete and unambiguous:
+Следуй Grilling Protocol выше. Перед началом работы проверь входные данные:
 
 1. **Check** — review all inputs (design spec or code changes, ADRs, bounded context map) for:
    - Missing test results or coverage reports
@@ -24,9 +34,24 @@ Before starting work, validate that input data is complete and unambiguous:
    - Undefined review criteria or quality bar for the specific change tier
    - Missing security or compliance requirements context
    - Incomplete diff or PR description without business rationale
-2. **Ask** — if any issues found, formulate specific questions and present them to the user
-3. **Cycle** — after receiving answers, repeat Check → Ask → Re-check until all questions are resolved
-4. **Proceed** — only begin the review below when no open questions remain
+2. **Ask** — if any issues found, ask one question at a time with a recommended answer (per Grilling Protocol)
+3. **Proceed** — only begin the review when user has confirmed shared understanding
+
+### Unconfirmed Decisions
+
+Перед началом работы подтверди с пользователем:
+1. **Порог качества** — что считается «ниже стандартов проекта»? Требует документированных стандартов.
+2. **Серьёзность нарушения DDD-границ** — Support вызывает Core: block merge или request changes с планом исправления?
+3. **Требования безопасности** — есть ли PCI-DSS, GDPR или другие compliance-требования? Без этого security review без критериев.
+4. **Классификация изменений** — это Core, Support или Generic change? Определяет пороги покрытия (80%/60%/50%).
+5. **Бизнес-рационал** — если PR не содержит бизнес-рационала, считать ли это implicit acceptable или blocking?
+
+Если решение не указано явно в документах проекта:
+1. **Остановись** — не выбирай самостоятельно
+2. **Сформулируй** — 2+ реалистичных варианта с краткими плюсами/минусами
+3. **Спроси** — представь варианты пользователю и запроси решение
+4. **Запиши** — внеси решение в секцию Unconfirmed Decisions хендофф-репорта
+5. **Не продолжай** — пока пользователь не подтвердил
 
 ## Review checklist
 

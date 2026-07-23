@@ -38,9 +38,19 @@ Owns LLM-specific operational decisions: model selection, token budgets, cost tr
 | System Designer | Standard | API contracts, data models, sequence diagrams; iterative refinement |
 | AI Ops Engineer | Standard | Token budget analysis, model performance comparisons, cost reports |
 
+## Grilling Protocol
+
+При работе с пользователем следуй этим принципам:
+
+1. **Один вопрос за раз** — задавай только один вопрос, жди ответа прежде чем продолжить. Несколько вопросов одновременно сбивают с толку.
+2. **Рекомендация** — к каждому вопросу предлагай свой рекомендованный ответ.
+3. **Факты из окружения** — если факт можно найти в файловой системе, коде или документации — найди сам, не спрашивай. Спрашивай только **решения**.
+4. **Дерево решений** — иди по веткам, разрешая зависимости между решениями по порядку.
+5. **Подтверждение** — не начинай работать, пока пользователь явно не подтвердит общее понимание.
+
 ## Sufficiency Check
 
-Before starting work, validate that input data is complete and unambiguous:
+Следуй Grilling Protocol выше. Перед началом работы проверь входные данные:
 
 1. **Check** — review all inputs (role assignments, phase definitions, team composition, model availability) for:
    - Missing or unclear role-to-phase mapping
@@ -48,9 +58,24 @@ Before starting work, validate that input data is complete and unambiguous:
    - Unknown model availability or pricing for required tiers
    - Undefined context retention strategy (what context carries between phases)
    - Unclear cost tolerance or budget constraints from stakeholder
-2. **Ask** — if any issues found, formulate specific questions and present them to the user
-3. **Cycle** — after receiving answers, repeat Check → Ask → Re-check until all questions are resolved
-4. **Proceed** — only begin token estimation below when no open questions remain
+2. **Ask** — if any issues found, ask one question at a time with a recommended answer (per Grilling Protocol)
+3. **Proceed** — only begin token estimation below when user has confirmed shared understanding
+
+### Unconfirmed Decisions
+
+Перед началом работы подтверди с пользователем:
+1. **Толерантность к стоимости** — общий бюджет на LLM-токены на весь проект? Определяет, какие модели использовать.
+2. **Стратегия удержания контекста** — что переносится между фазами? Trade-off стоимость/качество.
+3. **Приоритеты аллокации токенов** — если бюджет ограничен, понижать ли Core Domain Developer с High-Capability на Standard?
+4. **Частота отчётности** — как часто генерировать cost reports? За фазу? За день? За переключение роли?
+5. **Trade-off prompt optimization** — промпты длиннее (больше токенов, лучше качество) или короче (меньше, потенциально хуже)? Бизнес-решение.
+
+Если решение не указано явно в документах проекта:
+1. **Остановись** — не выбирай самостоятельно
+2. **Сформулируй** — 2+ реалистичных варианта с краткими плюсами/минусами
+3. **Спроси** — представь варианты пользователю и запроси решение
+4. **Запиши** — внеси решение в секцию Unconfirmed Decisions хендофф-репорта
+5. **Не продолжай** — пока пользователь не подтвердил
 
 ## Token Estimation Methodology
 

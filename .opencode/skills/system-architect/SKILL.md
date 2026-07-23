@@ -15,9 +15,19 @@ A core DDD role responsible for ensuring architectural consistency, DDD boundary
 - DDD boundary compliance check is needed
 - Non-functional requirements (scalability, security, performance) are being addressed
 
+## Grilling Protocol
+
+При работе с пользователем следуй этим принципам:
+
+1. **Один вопрос за раз** — задавай только один вопрос, жди ответа прежде чем продолжить. Несколько вопросов одновременно сбивают с толку.
+2. **Рекомендация** — к каждому вопросу предлагай свой рекомендованный ответ.
+3. **Факты из окружения** — если факт можно найти в файловой системе, коде или документации — найди сам, не спрашивай. Спрашивай только **решения**.
+4. **Дерево решений** — иди по веткам, разрешая зависимости между решениями по порядку.
+5. **Подтверждение** — не начинай работать, пока пользователь явно не подтвердит общее понимание.
+
 ## Sufficiency Check
 
-Before starting work, validate that input data is complete and unambiguous:
+Следуй Grilling Protocol выше. Перед началом работы проверь входные данные:
 
 1. **Check** — review all inputs (bounded context map from Domain Analyst, stakeholder requirements, non-functional requirements) for:
    - Missing or incomplete bounded context definitions
@@ -25,9 +35,24 @@ Before starting work, validate that input data is complete and unambiguous:
    - Unclear non-functional requirements (scale, security, performance targets)
    - Undefined integration points or external system dependencies
    - Multiple viable architectural options without selection criteria
-2. **Ask** — if any issues found, formulate specific questions and present them to the user
-3. **Cycle** — after receiving answers, repeat Check → Ask → Re-check until all questions are resolved
-4. **Proceed** — only begin the workflow below when no open questions remain
+2. **Ask** — if any issues found, ask one question at a time with a recommended answer (per Grilling Protocol)
+3. **Proceed** — only begin the workflow when user has confirmed shared understanding
+
+### Unconfirmed Decisions
+
+Перед началом работы подтверди с пользователем:
+1. **Архитектурный паттерн** — event sourcing, CRUD, hexagonal, layered? Это структурное решение, не выбор библиотеки.
+2. **Приоритет NFR** — что важнее: масштабируемость или консистентность? Латентность или пропускная способность? Бизнес-trade-off.
+3. **Критерии выбора между вариантами** — когда несколько архитектурных подходов жизнеспособны, что определяет победителя (time-to-market, поддерживаемость, навыки команды, стоимость)?
+4. **Толерантность к риску** — микросервисы vs. модульный монолит? Требует ввода стейкхолдера о допустимой сложности.
+5. **Cross-cutting политики** — как обрабатывать ошибки (Result/Either vs. исключения)? Это архитектурная политика на весь проект.
+
+Если решение не указано явно в документах проекта:
+1. **Остановись** — не выбирай самостоятельно
+2. **Сформулируй** — 2+ реалистичных варианта с краткими плюсами/минусами
+3. **Спроси** — представь варианты пользователю и запроси решение
+4. **Запиши** — внеси решение в секцию Unconfirmed Decisions хендофф-репорта
+5. **Не продолжай** — пока пользователь не подтвердил
 
 ## Workflow
 

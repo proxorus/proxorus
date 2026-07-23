@@ -13,6 +13,40 @@ Implements Support subdomains that enable the product but don't differentiate it
 - API adapter or client needs implementation
 - Third-party library needs to be wrapped in an anti-corruption layer
 
+## Grilling Protocol
+
+При работе с пользователем следуй этим принципам:
+
+1. **Один вопрос за раз** — задавай только один вопрос, жди ответа прежде чем продолжить. Несколько вопросов одновременно сбивают с толку.
+2. **Рекомендация** — к каждому вопросу предлагай свой рекомендованный ответ.
+3. **Факты из окружения** — если факт можно найти в файловой системе, коде или документации — найди сам, не спрашивай. Спрашивай только **решения**.
+4. **Дерево решений** — иди по веткам, разрешая зависимости между решениями по порядку.
+5. **Подтверждение** — не начинай работать, пока пользователь явно не подтвердит общее понимание.
+
+## Sufficiency Check
+
+Следуй Grilling Protocol выше. Перед началом работы проверь входные данные:
+
+1. **Check** — review integration spec, external API docs, and anti-corruption layer requirements
+2. **Ask** — if any issues found, ask one question at a time with a recommended answer (per Grilling Protocol)
+3. **Proceed** — only begin implementation when user has confirmed shared understanding
+
+### Unconfirmed Decisions
+
+Перед началом работы подтверди с пользователем:
+1. **Правила трансляции ACL** — charge.succeeded от Stripe → PaymentConfirmed? Маппинг — бизнес-трансляция, не выбор библиотеки.
+2. **Семантика ошибок** — HTTP 429 → PaymentTemporarilyUnavailable (retryable) или PaymentSystemOverloaded (эскалация)? Бизнес-модель ошибок.
+3. **Политика retry/circuit breaker** — 3 попытки или 5? Зависит от допустимой задержки уведомлений и стоимости API-вызовов.
+4. **Стратегия синхронизации данных** — локальный кэш (eventual consistency) или всегда внешний запрос (strong consistency)? Бизнес-trade-off.
+5. **Область адаптера** — обёртка только Stripe или абстракция «всех платёжных провайдеров»? Архитектурное решение о гибкости.
+
+Если решение не указано явно в документах проекта:
+1. **Остановись** — не выбирай самостоятельно
+2. **Сформулируй** — 2+ реалистичных варианта с краткими плюсами/минусами
+3. **Спроси** — представь варианты пользователю и запроси решение
+4. **Запиши** — внеси решение в секцию Unconfirmed Decisions хендофф-репорта
+5. **Не продолжай** — пока пользователь не подтвердил
+
 ## Workflow
 
 1. **Receive integration spec** from System Designer
