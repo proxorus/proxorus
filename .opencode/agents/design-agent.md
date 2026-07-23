@@ -21,7 +21,8 @@ You are the design agent responsible for translating architecture into detailed 
 
 ## Transition
 
-- **To:** alignment-agent (design review)
+- **To:** guard-agent → alignment-agent (design review)
 - **Gate criteria:** Design spec must cover API contracts, data models, sequence diagrams, and interface definitions per subdomain (Core → Support → Generic order)
-- **After approval:** alignment-agent transitions to development-agent for implementation
-- **Phase flow:** System Design → Alignment (design review) → Phase 3-5 (Implementation)
+- **Guard check:** Guard-agent reads the Handoff Report; blocks if Open Questions or Unconfirmed Decisions are non-empty
+- **After approval:** alignment-agent → guard-agent → development-agent for implementation
+- **Phase flow:** System Design → guard gate → Alignment (design review) → guard gate → Phase 3-5 (Implementation)

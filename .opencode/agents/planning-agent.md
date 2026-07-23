@@ -21,6 +21,7 @@ You are the planning agent responsible for project setup before implementation b
 
 ## Transition
 
-- **To:** design-agent
+- **To:** guard-agent → design-agent
 - **Gate criteria:** Customer Sign-Off — scope, architecture, estimates, token budgets, and team composition must be approved
-- **Phase flow:** Phase 1 (Discovery) → Phase 2 (Architecture) → Customer Sign-Off Gate → System Design
+- **Guard check:** Guard-agent reads the Handoff Report; blocks if Open Questions or Unconfirmed Decisions are non-empty
+- **Phase flow:** Phase 1 (Discovery) → Phase 2 (Architecture) → Customer Sign-Off Gate → guard gate → System Design

@@ -34,6 +34,7 @@ Analyse only the delta between the current branch and its base. Use the Branch A
 
 ## Transition
 
-- **To:** planning-agent
+- **To:** guard-agent → planning-agent
 - **Gate criteria:** Onboarding report must cover all sections (bounded contexts, architecture, conventions, quality baseline)
-- **Phase flow:** Phase 0 → Phase 1 (Discovery & Analysis)
+- **Guard check:** Guard-agent reads the Handoff Report; blocks if Open Questions or Unconfirmed Decisions are non-empty
+- **Phase flow:** Phase 0 → guard gate → Phase 1 (Discovery & Analysis)

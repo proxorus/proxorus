@@ -4,6 +4,12 @@
 	"default_agent": "general",
 	"autoupdate": true,
 
+	"permission": {
+		"external_directory": {
+			"../deepseek/*": "deny"
+		}
+	},
+
 	"agent": {
 		"onboarding-agent": {
 			"model": "opencode/big-pickle",
@@ -33,6 +39,18 @@
 			"model": "opencode/big-pickle",
 			"mode": "subagent",
 			"description": "Full delivery: Core domain, integrations, generic assembly, tests, CI/CD, deploy",
+			"permission": { "edit": "allow", "bash": "ask" }
+		},
+		"guard-agent": {
+			"model": "opencode/big-pickle",
+			"mode": "subagent",
+			"description": "Transition gate: reads Handoff Reports, blocks if Open Questions or Unconfirmed Decisions exist",
+			"permission": { "edit": "deny", "bash": "deny" }
+		},
+		"clarification-agent": {
+			"model": "opencode/big-pickle",
+			"mode": "subagent",
+			"description": "Recovery: presents blocked questions to operator, collects answers, records decisions",
 			"permission": { "edit": "allow", "bash": "ask" }
 		}
 	}

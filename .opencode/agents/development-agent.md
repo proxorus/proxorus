@@ -26,8 +26,9 @@ You are the development agent — the full delivery team for implementation.
 6. Verify DDD alignment — load domain-analyst and system-architect skills
 
 ### Transition rules
-- **On implementation complete →** verify with QA → align with Code Reviewer (alignment-agent)
-- **On design ambiguity →** escalate to design-agent
-- **On architecture violation →** escalate to alignment-agent
-- **After all gates pass →** transition to DevOps Engineer for Phase 6 (MVP Release)
-- **Phase flow:** Phase 3 (Core) → Phase 4 (Support) → Phase 5 (Generic) → QA gates → Phase 6 (Release)
+- **On implementation complete →** verify with QA → guard-agent → align with Code Reviewer (alignment-agent)
+- **On design ambiguity →** guard-agent → escalate to design-agent
+- **On architecture violation →** guard-agent → escalate to alignment-agent
+- **After all gates pass →** guard-agent → transition to DevOps Engineer for Phase 6 (MVP Release)
+- **Guard check:** Every transition passes through guard-agent; it reads the Handoff Report and blocks if Open Questions or Unconfirmed Decisions exist
+- **Phase flow:** Phase 3 (Core) → guard gate → Phase 4 (Support) → guard gate → Phase 5 (Generic) → guard gate → QA gates → guard gate → Phase 6 (Release)

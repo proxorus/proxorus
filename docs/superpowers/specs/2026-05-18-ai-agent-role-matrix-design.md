@@ -67,6 +67,15 @@ This role is active throughout the project lifecycle, handling LLM-specific oper
 |---|---|---|
 | **AI Ops Engineer** | Recommends model assignments per role and phase based on task complexity; estimates token consumption budgets per phase and scenario; monitors and optimizes prompt strategies for cost efficiency; reports projected LLM costs to Project Manager | Planning phases + continuous monitoring |
 
+### Gating Roles — Transition-Activated
+
+These roles activate on every role-to-role handoff, enforcing the Sufficiency Check precondition.
+
+| Role | Responsibilities | Activation Point |
+|---|---|---|
+| **Guard-Agent** | Reads the upstream role's Handoff Report; checks `## Open Questions` section; blocks transition if any questions remain unresolved; reports which questions are open. Read-only — never produces design or implementation artifacts. | Every transition between any two roles in any phase |
+| **Clarification-Agent** | Activated when Guard-Agent blocks a transition. Presents the open questions to the human operator, collects answers, and writes them to the decision log. After answers are recorded, the upstream role re-enters only its Sufficiency Check phase before producing a new Handoff Report. | Recovery path — only when Guard-Agent blocks |
+
 ## Role Activation by Project Stage
 
 The same role matrix applies across project stages, but role focus and priority shift. The table below maps each non-greenfield stage to its primary and supporting roles.
@@ -128,8 +137,12 @@ Roles распределены по десяти группам, покрыва�
 | **Публикация** | DevOps Engineer, System Architect | CI/CD, деплой, настройка окружений, проверка нефункциональных требований |
 | **Post-Production** | DevOps Engineer, Domain Analyst | Мониторинг, логи, алерты, инциденты; сбор feedback, итерация DDD-модели |
 | **AI Operations** | AI Ops Engineer | Оценка token-бюджетов, рекомендации моделей для каждой роли, мониторинг затрат, оптимизация prompt-стратегий |
+| **Гейтирование** | Guard-Agent, Clarification-Agent | Проверка precondition (Sufficiency Check) на каждом ролевом переходе. Guard-Agent читает Handoff Report, блокирует при открытых вопросах. Clarification-Agent восстанавливает — собирает ответы от человека и пишет в decision log |
 
 ## Development Flow with To
+
+A Guard-Agent transition gate runs between every role-to-role handoff. The diagram below shows the major blocks; the Guard symbols (⟷) appear between each phase or role transition.
+
 ```
 Existing Codebase (onboarding) ──→ Stakeholder Requirements (new)
           ↓
@@ -141,24 +154,36 @@ Existing Codebase (onboarding) ──→ Stakeholder Requirements (new)
     │  architecture, ADRs, conventions       │
     └──────────────────┬────────────────────┘
                        ↓
+              [Guard-Agent] ← blocks if Open Questions remain
+                       ↓
               [Domain Analyst]
               DDD Classification
-           ↓
+                       ↓
+              [Guard-Agent]
+                       ↓
     [Project Manager, AI Ops Engineer]
     Estimates + Token budgets (human-only + agent-assisted)
-           ↓
+                       ↓
+              [Guard-Agent]
+                       ↓
     [System Architect, Project Manager, AI Ops Engineer]
     Architecture + Refined Estimates + Token budgets
-           ↓
+                       ↓
+              [Guard-Agent]
+                       ↓
     ┌──────────────────────────────────────┐
     │        Customer Sign-Off Gate         │  ← scope, architecture, estimates, tokens approved
     └───────────────┬──────────────────────┘
+                  ↓
+              [Guard-Agent]
                   ↓
     ┌──────────────────────────────────┐
     │ [System Designer, System Architect] │
     │   System Design (Core → Support → Generic)
     │   API contracts, data models, interfaces
     └───────────────┬──────────────────┘
+                    ↓
+              [Guard-Agent]
                     ↓
     ┌────────┬──────────┬──────────┐
     │  Core  │ Support  │ Generic  │
@@ -167,17 +192,25 @@ Existing Codebase (onboarding) ──→ Stakeholder Requirements (new)
    [Core Dev] [Integ Dev] [Assembler]
    ← ToC bottleneck — START HERE
         ↓         ↓          ↓
+   [Guard-Agent] [Guard-Agent] [Guard-Agent]
+        ↓         ↓          ↓
    ┌────────────────────────────┐
    │     [QA Engineer]          │  ← Verification gate
    └────────────┬───────────────┘
+                ↓
+          [Guard-Agent]
                 ↓
    ┌────────────────────────────┐
    │    [Code Reviewer]         │  ← Quality gate
    └────────────┬───────────────┘
                 ↓
+          [Guard-Agent]
+                ↓
    ┌────────────────────────────┐
    │   [DevOps Engineer]        │  ← Release gate
    └────────────┬───────────────┘
+                ↓
+          [Guard-Agent]
                 ↓
           Product Release
 ```

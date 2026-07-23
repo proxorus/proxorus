@@ -5,7 +5,7 @@ This repo defines an **AI agent role matrix** for DDD-based software development
 ## Core content
 
 - `docs/superpowers/specs/2026-05-18-ai-agent-role-matrix-design.md` — the single authoritative spec. Read it first.
-- `package.json` is empty (`{}`). No build, test, lint, or CI infrastructure exists.
+- `package.json` contains `@opencode-ai/plugin` as the only dependency. No build, test, lint, or CI infrastructure exists.
 
 ## Key concepts from the spec
 
@@ -32,7 +32,7 @@ This repo defines an **AI agent role matrix** for DDD-based software development
 
 ## OpenCode agents & skills
 
-Five subagents implement the lifecycle groups; eleven skills encode individual role procedures.
+Seven subagents implement the lifecycle groups; eleven skills encode individual role procedures.
 
 ### Agents (`.opencode/agents/`)
 | Agent | Model | Lifecycle group | Permission |
@@ -42,10 +42,14 @@ Five subagents implement the lifecycle groups; eleven skills encode individual r
 | `design-agent` | big-pickle | Проектирование | read + bash |
 | `alignment-agent` | big-pickle | Согласование | read-only (gate) |
 | `development-agent` | big-pickle | Реализация + QA + Публикация + Post-Production | edit + bash |
+| `guard-agent` | big-pickle | Гейтирование | read-only (transition gate) |
+| `clarification-agent` | big-pickle | Гейтирование (recovery) | read + bash |
 
-**Transitions:** onboarding → planning → design → alignment → development → alignment → QA → release
+**Transitions:** onboarding → guard → planning → guard → design → guard → alignment → guard → development → guard → alignment → guard → QA → guard → release
 
-**Gate rules:** Every transition requires the upstream gate (Code Reviewer / QA) to pass before proceeding.
+**Gate rules:** A Guard-Agent transition gate runs between every role-to-role handoff. It reads the upstream role's Handoff Report and blocks the transition if **Open Questions** or **Unconfirmed Decisions** sections are non-empty. If blocked, a Clarification-Agent recovers by asking the human operator for answers. The upstream role then re-enters only its Sufficiency Check phase before retrying.
+
+**Unconfirmed Decisions rule (in every role SKILL.md):** No technological decision (stack, framework, library, architectural pattern, protocol, infrastructure service) that is not explicitly specified in project docs may be made unilaterally. The role must stop, formulate 2+ alternatives, present them to the user, record in the Handoff Report, and not proceed until the user confirms.
 
 ### Skills (`.opencode/skills/<role>/SKILL.md`)
 
@@ -64,8 +68,10 @@ Five subagents implement the lifecycle groups; eleven skills encode individual r
 | `ai-ops-engineer` | AI Operations | Standard |
 
 ### Templates (`.opencode/templates/`)
-`onboarding-report.md`, `sign-off-package.md`, `design-spec.md`, `review-report.md`, `adr.md`, `ubiquitous-language-glossary.md`
+`onboarding-report.md`, `sign-off-package.md`, `design-spec.md`, `review-report.md`, `adr.md`, `ubiquitous-language-glossary.md`, `handoff-report.md`
 
-## Existing instruction sources
+## Skill usage requirement
 
-The repo previously had a `CLAUDE.md` with generic behavioral guidelines (Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution). Those principles are reasonable defaults but are not repo-specific — apply them where they help, override where the spec prescribes something different.
+All agents must load the appropriate skill from `.opencode/skills/` before performing work in any role. Skills are the single source of truth for role procedures — do not infer workflows, checklists, or quality criteria from general knowledge.
+
+

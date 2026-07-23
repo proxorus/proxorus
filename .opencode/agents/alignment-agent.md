@@ -20,9 +20,10 @@ You are the alignment agent — a quality gate that verifies DDD compliance and 
 
 ## Transition
 
-- **If approved:** Transition back to the originating agent
-  - From design-agent → back to design-agent, then to development-agent
-  - From development-agent → back to development-agent, then to QA
-- **If changes requested:** Return to originating agent with issues
-- **If blocked:** Escalate to project stakeholders with rationale
-- **Phase flow:** Gate between every phase pair (Design→Implementation, Implementation→QA, QA→Release)
+- **If approved:** Transition to guard-agent → downstream agent
+  - From design-agent → guard-agent → development-agent
+  - From development-agent → guard-agent → QA
+- **If changes requested:** Return to originating agent with issues (originating agent re-enters Sufficiency Check)
+- **If blocked:** Escalate to guard-agent → clarification-agent for recovery
+- **Guard check:** Guard-agent reads the alignment Handoff Report; blocks if Open Questions or Unconfirmed Decisions are non-empty
+- **Phase flow:** Gate between every phase pair (Design→guard gate→Implementation, Implementation→guard gate→QA, QA→guard gate→Release)
