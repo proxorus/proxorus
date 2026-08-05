@@ -32,7 +32,7 @@ This repo defines an **AI agent role matrix** for DDD-based software development
 
 ## OpenCode agents & skills
 
-Seven subagents implement the lifecycle groups; eleven skills encode individual role procedures.
+Seven subagents implement the lifecycle groups; twelve skills encode individual role procedures plus one orchestration skill.
 
 ### Agents (`.opencode/agents/`)
 | Agent | Model | Lifecycle group | Permission |
@@ -66,6 +66,7 @@ Seven subagents implement the lifecycle groups; eleven skills encode individual 
 | `project-manager` | Planning | Efficiency |
 | `system-designer` | Design | Standard |
 | `ai-ops-engineer` | AI Operations | Standard |
+| `project-starter` | Orchestration | High-Capability |
 
 ### Templates (`.opencode/templates/`)
 `onboarding-report.md`, `sign-off-package.md`, `design-spec.md`, `review-report.md`, `adr.md`, `ubiquitous-language-glossary.md`, `handoff-report.md`

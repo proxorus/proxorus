@@ -14,7 +14,43 @@ OpenCode will automatically load `opencode.json` and `AGENTS.md` when you open t
 
 Load a skill via the `skill` tool when a task matches its role description. Each `SKILL.md` contains activation triggers, workflow, experience level adaptation, and outputs.
 
-Available skills: `domain-analyst`, `system-architect`, `code-reviewer` (includes Branch Analysis Mode for git diff business logic extraction), `core-domain-developer`, `integration-developer`, `solution-assembler`, `qa-engineer`, `devops-engineer`, `project-manager`, `system-designer`, `ai-ops-engineer`.
+Available skills: `domain-analyst`, `system-architect`, `code-reviewer` (includes Branch Analysis Mode for git diff business logic extraction), `core-domain-developer`, `integration-developer`, `solution-assembler`, `qa-engineer`, `devops-engineer`, `project-manager`, `system-designer`, `ai-ops-engineer`, `project-starter`.
+
+### Starting a project with `project-starter`
+
+The `project-starter` skill is the entry point to the full lifecycle. It orchestrates all phases from Onboarding through Release:
+
+```bash
+# Invoke the starter
+/project-starter
+```
+
+The skill will:
+
+1. **Scan** the project for existing artifacts (bounded contexts, ADRs, architecture diagrams, code, tests, CI/CD)
+2. **Determine** the current phase based on artifacts found
+3. **Propose** the next phase to execute
+4. **Activate** the appropriate role skills for that phase
+5. **Repeat** sequentially through all phases, respecting Guard-Agent gates between transitions
+
+### Pipeline phases
+
+| Phase | Active Roles | Key Output |
+|---|---|---|
+| Phase 0: Onboarding | Domain Analyst, System Architect, Code Reviewer | Onboarding report |
+| Phase 1: Discovery | Domain Analyst, System Architect, Project Manager, AI Ops Engineer | DDD classification, preliminary estimates |
+| Phase 2: Architecture | System Architect, Domain Analyst, Project Manager, AI Ops Engineer | Architecture diagram, refined estimates |
+| Sign-Off Gate | All planning roles | Customer approval |
+| System Design | System Designer, System Architect, Domain Analyst | API contracts, data models |
+| Phase 3: Core Impl | Core Domain Developer, QA, Code Reviewer | Working Core domain |
+| Phase 4: Support Impl | Integration Developer, QA, Code Reviewer | Adapters, integrations |
+| Phase 5: Generic Impl | Solution Assembler, QA, Code Reviewer | CRUD, config, scaffolding |
+| Phase 6: MVP Release | DevOps Engineer, QA, Code Reviewer | Deployed MVP |
+| Phase 7: Enhancement | All (cycling) | Incremental releases |
+
+### Guard-Agent gates
+
+Between each phase, a Guard-Agent checks the Handoff Report for unresolved Open Questions or Unconfirmed Decisions. If blocked, Clarification-Agent asks the user for answers before proceeding.
 
 ## Using Agents
 
