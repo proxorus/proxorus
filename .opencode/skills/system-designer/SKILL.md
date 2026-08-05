@@ -9,7 +9,7 @@ Translates architectural boundaries into detailed, implementable specifications.
 
 ## When to activate
 
-- System Design phase (after Customer Sign-Off Gate, before Phase 3)
+- System Design phase (after Early Scope & Architecture Approval, before Task Decomposition & Estimation)
 - Detailed API contracts need definition
 - Data models and database schemas need specification
 - Interface definitions needed for implementation
@@ -59,8 +59,9 @@ Translates architectural boundaries into detailed, implementable specifications.
 2. **Design APIs** — request/response schemas, endpoints, error codes, versioning
 3. **Design data models** — database schema, event schemas, serialization format
 4. **Design interfaces** — repository interfaces, service interfaces, port definitions
-5. **Write design spec** — sequence diagrams for key flows, state machines for aggregates
-6. **Pass to Code Reviewer** — design is reviewed before implementation begins
+5. **Map dependencies** — record the component dependency graph (edges typed port/event/data; dependencies flow inward toward Core; Core must not depend on Generic internals)
+6. **Write design spec** — sequence diagrams for key flows, state machines for aggregates
+7. **Pass to Code Reviewer** — design is reviewed before implementation begins
 
 ## Outputs
 
@@ -68,6 +69,7 @@ Translates architectural boundaries into detailed, implementable specifications.
 - Data model / database schema
 - Sequence diagrams for key business flows
 - Component interface definitions
+- Component dependency graph (typed edges) — source of task dependency edges during decomposition
 
 ## Experience Level Adaptation
 

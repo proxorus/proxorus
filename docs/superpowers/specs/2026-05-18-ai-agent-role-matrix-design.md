@@ -7,10 +7,10 @@ Defines a hybrid role-based architecture for a single AI agent that drives softw
 ## Guiding Principles
 
 1. **Domain-first**: All work begins with DDD analysis to classify features into Core, Support, and Generic subdomains.
-2. **ToC-driven**: Development always starts with the Core Domain — the constraint that differentiates the product.
+2. **ToC-driven**: The Core Domain is the constraint that differentiates the product and is scheduled first. Execution order inside the task decomposition is topological — derived from task dependencies, not from fixed phases. Any non-Core task that a Core task depends on is pulled forward into the Core window (Dependency Pull-Forward).
 3. **Cross-cutting quality**: Code Reviewer and QA roles act as gates; nothing ships without passing through them.
 4. **Context preservation**: Core roles remain active throughout; implementation and delivery roles activate contextually.
-5. **Customer validated**: every phase produces estimates; implementation begins only after customer sign-off on scope, architecture, and time. Estimates are produced for two team compositions — human-only and agent-assisted — in parallel.
+5. **Customer validated**: implementation begins only after customer sign-off on scope, architecture, design, task decomposition, and time. Time estimates are produced only after the final design documents exist and tasks are decomposed — never from Phase 1-2 outputs alone. Estimates are produced for two team compositions — human-only and agent-assisted — in parallel.
 
 ## Role Matrix
 
@@ -49,7 +49,7 @@ These roles activate during the planning, estimation, and customer approval phas
 
 | Role | Responsibilities | Activation Point |
 |---|---|---|
-| **Project Manager** | Produces preliminary and refined time estimates for both human-only and agent-assisted scenarios; proposes team composition and headcount per scenario and phase; coordinates with AI Ops Engineer on token budgets; facilitates Customer Sign-Off Gate; manages scope, timeline, and stakeholder communication | Phase 1, Phase 2, Customer Sign-Off Gate |
+| **Project Manager** | Produces time estimates for both human-only and agent-assisted scenarios, only after System Design and task decomposition; produces the task decomposition from final design documents; proposes team composition and headcount per scenario and phase; coordinates with AI Ops Engineer on token budgets; facilitates the Early Scope & Architecture Approval and the Customer Sign-Off Gate; manages scope, timeline, and stakeholder communication | Phase 1, Phase 2, Early Scope & Architecture Approval, after System Design (Task Decomposition & Estimation), Customer Sign-Off Gate |
 
 ### Design Roles — Phase-Activated
 
@@ -57,7 +57,7 @@ These roles activate after architecture approval to produce detailed specificati
 
 | Role | Responsibilities | Activation Point |
 |---|---|---|
-| **System Designer** | Translates architectural boundaries into detailed component designs: API contracts, data models, sequence diagrams, interface definitions; ensures DDD aggregate and service boundaries are preserved; passes designs to Code Reviewer before implementation | System Design phase |
+| **System Designer** | Translates architectural boundaries into detailed component designs: API contracts, data models, sequence diagrams, interface definitions, component dependency graph (the source of task dependency edges during decomposition); ensures DDD aggregate and service boundaries are preserved; passes designs to Code Reviewer before implementation | System Design phase |
 
 ### AI Operations Role — Continuous
 
@@ -65,7 +65,7 @@ This role is active throughout the project lifecycle, handling LLM-specific oper
 
 | Role | Responsibilities | Activation Point |
 |---|---|---|
-| **AI Ops Engineer** | Recommends model assignments per role and phase based on task complexity; estimates token consumption budgets per phase and scenario; monitors and optimizes prompt strategies for cost efficiency; reports projected LLM costs to Project Manager | Planning phases + continuous monitoring |
+| **AI Ops Engineer** | Recommends model assignments per role and phase based on task complexity; estimates token consumption budgets per phase and scenario, only after task decomposition; monitors and optimizes prompt strategies for cost efficiency; reports projected LLM costs to Project Manager | Phases 1-2 (model recommendations), after System Design (token budgets), continuous monitoring |
 
 ### Gating Roles — Transition-Activated
 
@@ -127,9 +127,9 @@ Roles распределены по десяти группам, покрыва�
 | Группа | Роли | Описание |
 |---|---|---|
 | **Ввод в проект** | Domain Analyst, System Architect, Code Reviewer | Onboarding в существующий проект: reverse-engineering bounded contexts, архитектуры, ADR, code conventions, ubiquitous language из кода |
-| **Планирование** | Domain Analyst, System Architect, Project Manager, AI Ops Engineer | Выявление требований, DDD-анализ, классификация поддоменов, определение архитектуры, MVP scope, предварительные оценки и предложения по составу команд для human-only и agent-assisted сценариев |
-| **Утверждение** | Domain Analyst, System Architect, Project Manager, AI Ops Engineer | Презентация scope, архитектуры, оценок, token-бюджетов и предложений по составу команд (оба сценария) заказчику; получение утверждения перед реализацией |
-| **Проектирование** | System Designer, System Architect, Domain Analyst | Детальное проектирование компонентов: API-контракты, модели данных, диаграммы последовательностей, интерфейсы; проверка дизайна Code Reviewer перед реализацией |
+| **Планирование** | Domain Analyst, System Architect, Project Manager, AI Ops Engineer | Выявление требований, DDD-анализ, классификация поддоменов, определение архитектуры, MVP scope. Оценки времени и токен-бюджеты здесь не производятся — только после проектирования и декомпозиции |
+| **Утверждение** | Domain Analyst, System Architect, Project Manager, AI Ops Engineer | Два гейта: раннее согласование scope и архитектуры (без оценок) после Фазы 2; финальный Customer Sign-Off (scope, архитектура, дизайн, декомпозиция, оценки, token-бюджеты, состав команд — оба сценария) после проектирования; получение утверждения перед реализацией |
+| **Проектирование** | System Designer, System Architect, Domain Analyst | Детальное проектирование компонентов: API-контракты, модели данных, диаграммы последовательностей, интерфейсы; проверка дизайна Code Reviewer перед декомпозицией и оценкой |
 | **Согласование** | Domain Analyst, System Architect, Code Reviewer | Верификация архитектурных решений, соответствие DDD-модели, ubiquitous language, compliance с границами |
 | **Реализация** | Core Domain Developer, Integration Developer, Solution Assembler | Имплементация core/support/generic поддоменов с приоритетом по ToC |
 | **Контроль качества** | QA Engineer, Code Reviewer | Тестирование (unit/integration/E2E), code review, quality gate, security check |
@@ -157,23 +157,18 @@ Existing Codebase (onboarding) ──→ Stakeholder Requirements (new)
               [Guard-Agent] ← blocks if Open Questions remain
                        ↓
               [Domain Analyst]
-              DDD Classification
-                       ↓
-              [Guard-Agent]
-                       ↓
-    [Project Manager, AI Ops Engineer]
-    Estimates + Token budgets (human-only + agent-assisted)
+              DDD Classification + MVP Scope
                        ↓
               [Guard-Agent]
                        ↓
     [System Architect, Project Manager, AI Ops Engineer]
-    Architecture + Refined Estimates + Token budgets
+    Architecture + ADRs (no time estimates)
                        ↓
               [Guard-Agent]
                        ↓
-    ┌──────────────────────────────────────┐
-    │        Customer Sign-Off Gate         │  ← scope, architecture, estimates, tokens approved
-    └───────────────┬──────────────────────┘
+    ┌────────────────────────────────────────┐
+    │   Early Scope & Architecture Approval  │  ← scope, architecture approved (no estimates)
+    └───────────────┬────────────────────────┘
                   ↓
               [Guard-Agent]
                   ↓
@@ -185,6 +180,23 @@ Existing Codebase (onboarding) ──→ Stakeholder Requirements (new)
                     ↓
               [Guard-Agent]
                     ↓
+          [alignment-agent] Design Review
+          (design final, no open questions)
+                    ↓
+              [Guard-Agent]
+                    ↓
+    [Project Manager, AI Ops Engineer]
+    Task Decomposition + Time Estimates + Token budgets
+    (human-only + agent-assisted)
+                    ↓
+              [Guard-Agent]
+                    ↓
+    ┌────────────────────────────────────────┐
+    │        Customer Sign-Off Gate          │  ← design, decomposition, estimates, tokens approved
+    └───────────────┬────────────────────────┘
+                  ↓
+              [Guard-Agent]
+                  ↓
     ┌────────┬──────────┬──────────┐
     │  Core  │ Support  │ Generic  │
     └───┬────┴────┬─────┴────┬─────┘
@@ -223,19 +235,29 @@ Existing Codebase (onboarding) ──→ Stakeholder Requirements (new)
 
 ### Phase 1: Discovery & Analysis
 - Active: Domain Analyst, System Architect, Project Manager, AI Ops Engineer
-- Output: Event Storming diagram, bounded context map, DDD classification table, ubiquitous language glossary, preliminary time estimates per subdomain for human-only and agent-assisted scenarios, team composition and headcount proposals per scenario, preliminary token budgets per role (agent-assisted scenario)
+- Output: Event Storming diagram, bounded context map, DDD classification table, ubiquitous language glossary, MVP scope (feature list). No time estimates or token budgets are produced in this phase — they require final design documents and task decomposition.
 
 ### Phase 2: Architecture
 - Active: System Architect, Domain Analyst, Project Manager, AI Ops Engineer
-- Output: System architecture diagram, technology stack proposal (passed through Developer Technology Gate), module boundaries, refined time estimates and team composition for both scenarios, refined token budgets per role and phase (agent-assisted scenario)
+- Output: System architecture diagram, technology stack proposal (passed through Developer Technology Gate), module boundaries, ADRs. No time estimates or token budgets are produced in this phase — they require final design documents and task decomposition.
 
-### Customer Sign-Off Gate (before System Design)
+### Early Scope & Architecture Approval (before System Design)
 - Active: Domain Analyst, System Architect, Project Manager, AI Ops Engineer
-- Gate: Present scope, architecture, refined estimates, team composition proposals, and token budgets (both human-only and agent-assisted) to the customer. Implementation proceeds only after written approval. This gate prevents wasted work on unapproved scope and staffing.
+- Gate: Present MVP scope (bounded context map + feature list) and architecture (module boundaries, tech stack via DTG, ADRs) to the customer. Explicitly excluded: time estimates, token budgets, and team composition — none exist yet. Approval is recorded in `scope-approval.md` and lets System Design start. This gate prevents wasted design work on unapproved scope and architecture.
 
 ### System Design
 - Active: System Designer, System Architect, Domain Analyst
-- Output: Detailed component designs, API contracts, data models, sequence diagrams, interface definitions per subdomain (Core → Support → Generic). Designs are reviewed by Code Reviewer before implementation begins.
+- Output: Detailed component designs, API contracts, data models, sequence diagrams, interface definitions per subdomain (Core → Support → Generic), plus a component dependency graph with typed edges (port/event/data). The graph is the source of task dependency edges during decomposition. Designs are reviewed by Code Reviewer (alignment-agent) before estimation begins. The design must be final — no open questions — before task decomposition starts.
+
+### Task Decomposition & Estimation
+- Active: Project Manager, AI Ops Engineer, System Architect, Domain Analyst
+- Output: `task-decomposition.md` per subdomain — final design specs broken into implementable tasks, each with acceptance criteria and estimate columns (human-only time, agent-assisted time, token budget). The Project Manager projects the component dependency graph onto tasks (a task depends on another if its component does) and orders tasks topologically; any non-Core dependency of a Core task is pulled forward into the Core window (Dependency Pull-Forward). The critical path (CPM) is computed per scenario from dependency edges and estimates; critical-path tasks are marked and both chains (human-only, agent-assisted) are presented at the Customer Sign-Off Gate. Aggregated time estimates for both scenarios per implementation phase; token budgets per role and phase. Time estimates and token budgets are produced here for the first time, only after the final design documents exist and all open questions from System Design are closed.
+
+### Customer Sign-Off Gate (before implementation)
+- Active: Domain Analyst, System Architect, Project Manager, AI Ops Engineer
+- Gate: Present scope, architecture, design specs, task decomposition, time estimates, team composition proposals, and token budgets (both human-only and agent-assisted) to the customer. Implementation proceeds only after written approval. This gate prevents wasted work on unapproved scope, design, staffing, and timelines.
+
+Phases 3-6 are reporting groupings for aggregation, not a fixed execution sequence. Tasks are executed in topological order derived from their dependency edges (see Task Decomposition & Estimation); a task may run before its nominal phase when an earlier-phase task depends on it (Dependency Pull-Forward).
 
 ### Phase 3: Core Implementation (ToC Constraint)
 - Active: Core Domain Developer, Code Reviewer (gate), QA Engineer (gate)
@@ -268,11 +290,11 @@ Existing Codebase (onboarding) ──→ Stakeholder Requirements (new)
 
 ## Decision Rules
 
-1. **Always start with Core Domain**: The Core is the constraint. Without it, the product has no differentiation.
+1. **Schedule the Core Domain first**: The Core is the constraint — without it the product has no differentiation. Core tasks are scheduled first; execution order within the decomposition is topological (task dependencies), and any non-Core dependency of a Core task is pulled forward into the Core window (Dependency Pull-Forward).
 2. **Buy vs Build**: Generic subdomains should use existing solutions whenever possible. Support subdomains evaluate buy vs build case-by-case. Core is always built.
 3. **Verification is mandatory**: No implementation bypasses QA and Code Reviewer gates.
 4. **Boundaries are inviolable**: Core Domain code must not depend on Generic subdomain internals. Dependencies flow inward toward Core.
-5. **No implementation without sign-off**: Customer must approve scope, architecture, and time estimates before any code is written. The Customer Sign-Off Gate is mandatory.
+5. **No implementation without sign-off**: Customer must approve scope, architecture, design, task decomposition, and time estimates before any code is written. The Customer Sign-Off Gate is mandatory.
 6. **All technology choices pass Developer Technology Gate**: No role may select a technology, framework, library, or infrastructure component autonomously. Before every such choice, the role must present a Technology Proposal (2-3 options with analysis and a recommendation) to the Developer (session operator). If the Developer does not respond or delegates, the role decides but records an Open Technology Question for later resolution.
 
 ## Experience Level Adaptation
@@ -344,7 +366,7 @@ The AI Ops Engineer estimates token consumption per phase using:
 3. **Phase duration × task density** — number of task cycles per phase multiplied by average tokens per cycle
 4. **Scenarios** — human-only (zero token cost) and agent-assisted (computed) in parallel
 
-Token budgets are produced in Phase 1 (preliminary), refined in Phase 2, and included in the Customer Sign-Off Gate package alongside time estimates and team composition.
+Token budgets are produced after task decomposition — they require concrete task volume per role — and included in the Customer Sign-Off Gate package alongside time estimates and team composition.
 
 ## Agent State Management
 

@@ -1,6 +1,6 @@
 ---
 name: project-manager
-description: Use during planning and sign-off phases — estimating time, proposing team composition, computing token budgets, preparing Customer Sign-Off Gate. Do NOT use for implementation.
+description: Use during planning, design, and sign-off phases — producing task decomposition from final design documents, estimating time, proposing team composition, computing token budgets, preparing the Early Scope & Architecture Approval and the Customer Sign-Off Gate. Do NOT use for implementation.
 ---
 
 # Project Manager
@@ -9,9 +9,11 @@ Owns estimation, team composition, token budgets, and customer communication.
 
 ## When to activate
 
-- Phase 1 (Discovery & Analysis) — preliminary estimates
-- Phase 2 (Architecture) — refined estimates + staffing
-- Customer Sign-Off Gate — presentation to customer
+- Phase 1 (Discovery & Analysis) — MVP scope definition, no time estimates
+- Phase 2 (Architecture) — architecture summary for early approval, no time estimates
+- Early Scope & Architecture Approval — presentation of scope + architecture only
+- After System Design — task decomposition from final design docs, time estimates, team composition
+- Customer Sign-Off Gate — presentation of design, decomposition, estimates, tokens, staffing
 
 ## Grilling Protocol
 
@@ -55,27 +57,42 @@ Owns estimation, team composition, token budgets, and customer communication.
 ## Estimation workflow
 
 ### Time estimates (two scenarios in parallel)
-1. **Human-only team** — estimate by subdomain complexity × team velocity
-2. **Agent-assisted team** — estimate by subdomain complexity × agent velocity × iteration savings
-3. **Produce both** — present as parallel rows in the estimate sheet
+1. **Precondition** — estimates are produced only after final design documents exist and tasks are decomposed. Never estimate from Phase 1-2 outputs alone.
+2. **Decompose first** — break each design spec into implementable tasks (template: `task-decomposition.md`)
+3. **Project dependencies** — project the component dependency graph from the design spec onto tasks (task X depends on task Y if component X depends on component Y); fill the "Depends on" column
+4. **Order topologically** — sort tasks so every task follows its dependencies, regardless of subdomain; any non-Core dependency of a Core task is pulled forward into the Core window (Dependency Pull-Forward)
+5. **Human-only team** — estimate per task (× team velocity), aggregate per implementation phase
+6. **Agent-assisted team** — estimate per task (× agent velocity × iteration savings), aggregate per implementation phase
+7. **Compute critical paths (CPM)** — per scenario, find the longest chain of dependent tasks from dependency edges and estimates; mark critical-path tasks and record both chains in the decomposition
+8. **Produce both** — present as parallel rows in the estimate sheet; detailed per-task estimates are the appendix to the sign-off package
 
 ### Token budgets (agent-assisted only)
-1. AI Ops Engineer estimates per-role token consumption using:
+1. **Precondition** — computed after task decomposition; task volume per role is only known then
+2. AI Ops Engineer estimates per-role token consumption using:
    - Context base: 50–200K tokens per active role
    - Task volume: files changed, API calls, review iterations
    - Phase duration × task density
-2. **Include in sign-off package**
+3. **Include in sign-off package**
 
 ### Team composition
 - Propose headcount per role per phase
 - Separate proposals for human-only and agent-assisted scenarios
 - Adjust for experience level (junior/middle/senior) using Experience Level Adaptation table
 
+## Early Scope & Architecture Approval
+
+- Scope summary (bounded context map + MVP feature list)
+- Architecture diagram (C4 level 1-2)
+- Key architecture decisions (ADRs)
+- Explicitly no time estimates, token budgets, or team composition
+
 ## Sign-off package
 
 - Scope summary (bounded context map + MVP feature list)
 - Architecture diagram (C4 level 1-2)
-- Time estimates (both scenarios)
+- Design specs (references)
+- Task decomposition with per-task estimates (appendix: `task-decomposition.md`)
+- Time estimates (both scenarios, aggregated per implementation phase)
 - Token budgets per role and phase
 - Team composition proposals
 

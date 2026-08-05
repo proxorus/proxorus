@@ -67,6 +67,14 @@
 {{port_definitions}}
 ```
 
+## 5. Component Dependency Graph
+
+| Component | Depends on | Edge type | Rationale |
+|-----------|-----------|-----------|-----------|
+| {{component}} | {{component_ids}} | port/event/data | {{rationale}} |
+
+Edge types: `port` — consumes an interface/port, `event` — publishes/subscribes to an event, `data` — reads/writes shared data. Dependencies flow inward toward Core; Core must not depend on Generic internals. This graph is the source of task dependency edges during decomposition.
+
 ---
 
 *Pass to Code Reviewer (alignment-agent) before implementation.*

@@ -42,3 +42,27 @@ _Avoid_: Re-doing all work, skipping clarification
 
 **Гейтирование (Gating)**:
 A lifecycle group that gates every role-to-role transition across all lifecycle groups. Contains Guard-Agent (primary) and Clarification-Agent (recovery path on block). Enforces the precondition that all Open Questions are closed before any role's Sufficiency Check proceeds to artifact generation.
+
+**Раннее согласование Scope и Архитектуры (Early Scope & Architecture Approval)**:
+An approval gate after Phase 2 (Architecture), before System Design. Approves only the MVP scope (bounded context map + feature list) and the architecture (module boundaries, tech stack via DTG, ADRs). Explicitly excludes time estimates, token budgets, and team composition — none exist yet. Recorded in `scope-approval.md`.
+_Avoid_: Ранний sign-off, предварительные оценки
+
+**Декомпозиция на задачи (Task Decomposition)**:
+An artifact produced by Project Manager after System Design. Breaks final design documents into implementable tasks, each with an acceptance criteria and estimate columns (human-only time, agent-assisted time, token budget). It is the direct input for time and token estimation and serves as the appendix to the Customer Sign-Off package.
+_Avoid_: WBS, список задач без оценок
+
+**Customer Sign-Off Gate**:
+The final mandatory approval before any implementation begins, after System Design, design review, and task decomposition. Approves scope, architecture, design specs, task decomposition, time estimates (both scenarios), token budgets, and team composition. Time estimates are produced only at this point — never from Phase 1-2 outputs alone.
+_Avoid_: Ранний sign-off, согласование до проектирования
+
+**TOC-constraint (ToC constraint)**:
+The bottleneck of the project — the Core subdomain, because it holds the differentiating business logic. Determines *priority*: what is built first and what the schedule is subordinated to. The Core is usually, but not necessarily, the longest chain in the schedule.
+_Avoid_: Критический путь, bottleneck as schedule fact
+
+**Critical Path (CPM)**:
+The longest chain of mutually dependent tasks through the whole task graph, computed from task dependencies and per-task durations. Determines *ordering* within the task decomposition and exposes schedule risk (which tasks have no slack). Distinct from the TOC-constraint: the constraint decides priority, the critical path decides sequence. Computed per scenario (human-only, agent-assisted) because durations differ; both chains are presented at the Customer Sign-Off Gate.
+_Avoid_: TOC-constraint, самый важный приоритет
+
+**Dependency Pull-Forward**:
+The scheduling rule of the TOC-constraint: Core tasks are scheduled first, but any non-Core task that a Core task depends on (by a component dependency graph edge) is pulled forward into the Core window instead of waiting for its nominal implementation phase. Core is built through ports/interfaces, so adapters are not required to start it; pull-forward applies only to structurally required dependencies.
+_Avoid_: Жёсткий порядок фаз Core → Support → Generic
