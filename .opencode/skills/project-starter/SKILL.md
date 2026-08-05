@@ -30,7 +30,7 @@ Before launching any phase, determine project state:
 
 1. **Scan** the project for existing artifacts:
    - Bounded context maps, ADRs, ubiquitous language glossary
-   - Architecture diagrams, sign-off packages
+   - Architecture diagrams, sign-off packages, scope-approval docs, task decomposition
    - Implementation code, test coverage, CI/CD configs
 2. **Identify** the highest completed phase based on artifacts present
 3. **Propose** the next phase to execute
@@ -42,10 +42,12 @@ Before launching any phase, determine project state:
 |---|---|---|
 | None or incomplete onboarding | — | Phase 0: Onboarding |
 | Onboarding report complete | Phase 0 | Phase 1: Discovery |
-| DDD classification, preliminary estimates | Phase 1 | Phase 2: Architecture |
-| Architecture, refined estimates | Phase 2 | Customer Sign-Off |
-| Sign-off approved | Sign-Off | System Design |
-| Design specs, API contracts | System Design | Phase 3: Core Implementation |
+| DDD classification, MVP scope | Phase 1 | Phase 2: Architecture |
+| Architecture, ADRs | Phase 2 | Early Scope & Architecture Approval |
+| scope-approval.md approved | Early Approval | System Design |
+| Design specs reviewed, no open questions | System Design | Task Decomposition & Estimation |
+| task-decomposition.md + estimates | Decomposition | Customer Sign-Off |
+| Sign-off approved | Sign-Off | Phase 3: Core Implementation |
 | Core domain code + tests | Phase 3 | Phase 4: Support Implementation |
 | Adapters, integrations | Phase 4 | Phase 5: Generic Assembly |
 | CRUD, config, scaffolding | Phase 5 | Phase 6: MVP Release |
@@ -73,11 +75,11 @@ Execute phases sequentially. Each phase activates specific role skills. Guard-Ag
 
 **Workflow:**
 1. Load `domain-analyst` skill — DDD classification, bounded context map, ubiquitous language
-2. Load `project-manager` skill — preliminary estimates (human-only + agent-assisted)
-3. Load `ai-ops-engineer` skill — preliminary token budgets
-4. Produce discovery outputs: Event Storming diagram, classification table, glossary, preliminary estimates
+2. Load `project-manager` skill — MVP scope definition (no time estimates)
+3. Load `ai-ops-engineer` skill — model recommendations only (no token budgets yet)
+4. Produce discovery outputs: Event Storming diagram, classification table, glossary, MVP scope
 
-**Gate:** [Guard-Agent] — verify classification confirmed, estimates produced
+**Gate:** [Guard-Agent] — verify classification confirmed, scope defined
 
 ### Phase 2: Architecture
 
@@ -85,11 +87,47 @@ Execute phases sequentially. Each phase activates specific role skills. Guard-Ag
 
 **Workflow:**
 1. Load `system-architect` skill — module boundaries, tech stack, ADRs
-2. Load `project-manager` skill — refined estimates, team composition
-3. Load `ai-ops-engineer` skill — refined token budgets per role and phase
-4. Produce architecture outputs: architecture diagram, tech stack decisions, refined estimates
+2. Load `project-manager` skill — architecture summary for early approval (no estimates)
+3. Load `ai-ops-engineer` skill — model recommendations per role (no token budgets yet)
+4. Produce architecture outputs: architecture diagram, tech stack decisions, ADRs
 
-**Gate:** [Guard-Agent] — verify architecture decisions documented, estimates refined
+**Gate:** [Guard-Agent] — verify architecture decisions documented
+
+### Early Scope & Architecture Approval
+
+**Activate:** `domain-analyst`, `system-architect`, `project-manager`, `ai-ops-engineer`
+
+**Workflow:**
+1. Assemble scope-approval document (template: `scope-approval.md`):
+   - Scope summary (bounded context map + MVP feature list)
+   - Architecture diagram + key decisions
+   - Explicitly no time estimates, token budgets, or team composition
+2. Present to customer, record approval
+3. **Block System Design until approval recorded**
+
+**Gate:** [Guard-Agent] — block if approval not recorded. [Clarification-Agent] recovers if blocked.
+
+### System Design
+
+**Activate:** `system-designer`, `system-architect`, `domain-analyst`
+
+**Workflow:**
+1. Load `system-designer` skill — API contracts, data models, sequence diagrams
+2. Load `code-reviewer` skill — review designs before estimation
+3. Produce design specs (template: `design-spec.md`)
+
+**Gate:** [Guard-Agent] — verify design specs reviewed, no open questions remain
+
+### Task Decomposition & Estimation
+
+**Activate:** `project-manager`, `ai-ops-engineer`, `system-architect`, `domain-analyst`
+
+**Workflow:**
+1. Load `project-manager` skill — decompose design specs into tasks (template: `task-decomposition.md`), estimate time per task (human-only + agent-assisted), aggregate per implementation phase
+2. Load `ai-ops-engineer` skill — token budgets per role and phase from task volume
+3. Produce task decomposition with estimates (appendix to sign-off package)
+
+**Gate:** [Guard-Agent] — verify decomposition complete, no open questions from design remain
 
 ### Customer Sign-Off Gate
 
@@ -99,24 +137,15 @@ Execute phases sequentially. Each phase activates specific role skills. Guard-Ag
 1. Assemble sign-off package (template: `sign-off-package.md`):
    - Scope summary (bounded context map + MVP feature list)
    - Architecture diagram
-   - Time estimates (both scenarios)
+   - Design specs (references)
+   - Task decomposition with per-task estimates (appendix)
+   - Time estimates (both scenarios, aggregated per phase)
    - Token budgets per role and phase
    - Team composition proposals
 2. Present to customer
 3. **Block implementation until written approval received**
 
 **Gate:** [Guard-Agent] — block if sign-off not approved. [Clarification-Agent] recovers if blocked.
-
-### System Design
-
-**Activate:** `system-designer`, `system-architect`, `domain-analyst`
-
-**Workflow:**
-1. Load `system-designer` skill — API contracts, data models, sequence diagrams
-2. Load `code-reviewer` skill — review designs before implementation
-3. Produce design specs (template: `design-spec.md`)
-
-**Gate:** [Guard-Agent] — verify design specs reviewed and approved
 
 ### Phase 3: Core Implementation (ToC Constraint)
 
@@ -233,8 +262,10 @@ Each phase transition follows this pattern:
 | Phase 0: Onboarding | Domain Analyst, System Architect, Code Reviewer | Guard-Agent |
 | Phase 1: Discovery | Domain Analyst, System Architect, Project Manager, AI Ops Engineer | Guard-Agent |
 | Phase 2: Architecture | System Architect, Domain Analyst, Project Manager, AI Ops Engineer | Guard-Agent |
-| Sign-Off | Domain Analyst, System Architect, Project Manager, AI Ops Engineer | Guard-Agent, Clarification-Agent |
+| Early Scope & Architecture Approval | Domain Analyst, System Architect, Project Manager, AI Ops Engineer | Guard-Agent, Clarification-Agent |
 | System Design | System Designer, System Architect, Domain Analyst | Guard-Agent, Code Reviewer |
+| Task Decomposition & Estimation | Project Manager, AI Ops Engineer, System Architect, Domain Analyst | Guard-Agent |
+| Sign-Off | Domain Analyst, System Architect, Project Manager, AI Ops Engineer | Guard-Agent, Clarification-Agent |
 | Phase 3: Core Impl | Core Domain Developer | Guard-Agent, QA Engineer, Code Reviewer |
 | Phase 4: Support Impl | Integration Developer | Guard-Agent, QA Engineer, Code Reviewer |
 | Phase 5: Generic Impl | Solution Assembler | Guard-Agent, QA Engineer, Code Reviewer |

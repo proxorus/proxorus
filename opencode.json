@@ -20,13 +20,13 @@
 		"planning-agent": {
 			"model": "opencode/big-pickle",
 			"mode": "subagent",
-			"description": "Discovery & Architecture phases: estimates, team composition, token budgets, sign-off",
+			"description": "Discovery & Architecture: scope/architecture approval; after design: task decomposition, estimates, token budgets, final sign-off",
 			"permission": { "edit": "deny", "bash": "ask" }
 		},
 		"design-agent": {
 			"model": "opencode/big-pickle",
 			"mode": "subagent",
-			"description": "System Design: API contracts, data models, interfaces, token budgets",
+			"description": "System Design (before sign-off): API contracts, data models, interfaces",
 			"permission": { "edit": "deny", "bash": "ask" }
 		},
 		"alignment-agent": {

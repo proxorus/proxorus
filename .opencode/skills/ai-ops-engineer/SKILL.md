@@ -9,9 +9,10 @@ Owns LLM-specific operational decisions: model selection, token budgets, cost tr
 
 ## When to activate
 
-- All planning phases (Phase 1-2) — token budget estimation
+- Phase 1-2 — model tier recommendations only; no token budgets (task volume unknown)
+- System Design — model recommendations for implementation roles
+- Task Decomposition & Estimation — token budgets per role and phase from task volume
 - Customer Sign-Off Gate — token budgets in sign-off package
-- System Design — refine token budgets per implementation phase
 - Continuous — monitor token consumption, optimize prompt strategies, report costs
 
 ## Model Tier Recommendations
@@ -117,7 +118,7 @@ Phase: <name>
 
 ## Outputs
 
-- Token budget tables per phase (preliminary in Phase 1, refined in Phase 2)
+- Token budget tables per role and phase (after task decomposition)
 - Model assignment recommendations per role and phase
 - Cost projection reports for Project Manager
 - Prompt optimization recommendations

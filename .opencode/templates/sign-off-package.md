@@ -25,7 +25,15 @@
 ### Key Decisions
 {{architecture_decisions}}
 
-## 3. Time Estimates
+## 3. Design & Task Decomposition
+
+### Design Specs
+{{design_spec_references}}
+
+### Task Decomposition (appendix)
+Detailed per-task estimates (human-only / agent-assisted time, token budget) live in the `task-decomposition.md` appendix attached to this package.
+
+## 4. Time Estimates (aggregated by phase)
 
 | Phase | Human-only | Agent-assisted |
 |-------|-----------|---------------|
@@ -35,14 +43,14 @@
 | Phase 6 — MVP Release | {{estimate_human}} | {{estimate_agent}} |
 | **Total** | **{{total_human}}** | **{{total_agent}}** |
 
-## 4. Token Budgets (Agent-Assisted Scenario)
+## 5. Token Budgets (Agent-Assisted Scenario)
 
 | Role | Phase 3 | Phase 4 | Phase 5 | Phase 6 | Total |
 |------|---------|---------|---------|---------|-------|
 | {{role}} | {{tokens}} | {{tokens}} | {{tokens}} | {{tokens}} | {{total}} |
 | **Total** | **{{phase_total}}** | **{{phase_total}}** | **{{phase_total}}** | **{{phase_total}}** | **{{grand_total}}** |
 
-## 5. Team Composition
+## 6. Team Composition
 
 ### Human-Only Scenario
 | Role | Phase 3 | Phase 4 | Phase 5 | Phase 6 |
@@ -60,10 +68,12 @@
 
 - [ ] Scope approved
 - [ ] Architecture approved
+- [ ] Design specs approved
+- [ ] Task decomposition approved
 - [ ] Estimates approved
 - [ ] Token budgets approved
 - [ ] Team composition approved
 
 *Signature: ___________________  Date: _____________*
 
-*After sign-off, transition to design-agent for System Design.*
+*After sign-off, transition to development-agent for Phase 3 implementation.*

@@ -38,10 +38,12 @@ The skill will:
 | Phase | Active Roles | Key Output |
 |---|---|---|
 | Phase 0: Onboarding | Domain Analyst, System Architect, Code Reviewer | Onboarding report |
-| Phase 1: Discovery | Domain Analyst, System Architect, Project Manager, AI Ops Engineer | DDD classification, preliminary estimates |
-| Phase 2: Architecture | System Architect, Domain Analyst, Project Manager, AI Ops Engineer | Architecture diagram, refined estimates |
-| Sign-Off Gate | All planning roles | Customer approval |
-| System Design | System Designer, System Architect, Domain Analyst | API contracts, data models |
+| Phase 1: Discovery | Domain Analyst, System Architect, Project Manager, AI Ops Engineer | DDD classification, MVP scope (no estimates) |
+| Phase 2: Architecture | System Architect, Domain Analyst, Project Manager, AI Ops Engineer | Architecture diagram, ADRs (no estimates) |
+| Early Scope & Architecture Approval | All planning roles | Scope + architecture approval (`scope-approval.md`) |
+| System Design | System Designer, System Architect, Domain Analyst | API contracts, data models (design review before estimation) |
+| Task Decomposition & Estimation | Project Manager, AI Ops Engineer | `task-decomposition.md`, time estimates, token budgets |
+| Sign-Off Gate | All planning roles | Customer approval of design, decomposition, estimates |
 | Phase 3: Core Impl | Core Domain Developer, QA, Code Reviewer | Working Core domain |
 | Phase 4: Support Impl | Integration Developer, QA, Code Reviewer | Adapters, integrations |
 | Phase 5: Generic Impl | Solution Assembler, QA, Code Reviewer | CRUD, config, scaffolding |
@@ -59,8 +61,8 @@ Agents orchestrate multiple skills across a lifecycle phase. Defined in `.openco
 | Agent | When | Skills loaded |
 |---|---|---|
 | `onboarding-agent` | Phase 0: reverse-engineer existing codebase (`scope: full`) or branch diff analysis (`scope: diff`) | domain-analyst, system-architect, code-reviewer |
-| `planning-agent` | Phase 1-2: discovery, estimation, sign-off | domain-analyst, system-architect, project-manager, ai-ops-engineer |
-| `design-agent` | After sign-off: detailed component design | system-designer, system-architect, domain-analyst, ai-ops-engineer |
+| `planning-agent` | Phase 1-2 + early approval; after design: decomposition, estimation, final sign-off | domain-analyst, system-architect, project-manager, ai-ops-engineer |
+| `design-agent` | Before sign-off: detailed component design | system-designer, system-architect, domain-analyst |
 | `alignment-agent` | Gate between phases: design & code review | domain-analyst, system-architect, code-reviewer |
 | `development-agent` | Phase 3-5: implement Core → Support → Generic | core-domain-developer, integration-developer, solution-assembler, qa-engineer, devops-engineer, code-reviewer |
 
@@ -69,8 +71,11 @@ Agents orchestrate multiple skills across a lifecycle phase. Defined in `.openco
 | Transition | Gate |
 |---|---|
 | Onboarding → Planning | Onboarding report complete |
-| Planning → Design | Customer Sign-Off approved |
-| Design → Development | Design review passed |
+| Planning → Early Approval | Scope + architecture ready, no open questions |
+| Early Approval → Design | `scope-approval.md` recorded |
+| Design → Decomposition | Design review passed (alignment-agent) |
+| Decomposition → Sign-Off | `task-decomposition.md` complete, no open questions |
+| Sign-Off → Development | Customer Sign-Off approved |
 | Development → QA | Implementation complete |
 | QA → Release | All tests pass, code reviewed |
 
@@ -85,7 +90,9 @@ Utility scripts in `.opencode/scripts/`:
 Output templates in `.opencode/templates/`:
 
 - `onboarding-report.md` — bounded context map, architecture, conventions
-- `sign-off-package.md` — scope, estimates, token budgets, team comp
+- `scope-approval.md` — early scope + architecture approval (no estimates)
+- `sign-off-package.md` — scope, design, decomposition, estimates, token budgets, team comp
+- `task-decomposition.md` — tasks with per-task estimates (sign-off appendix)
 - `design-spec.md` — API contracts, data models, sequence diagrams
 - `review-report.md` — approve / request changes / block
 - `adr.md` — Architecture Decision Record
