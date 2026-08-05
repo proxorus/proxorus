@@ -5,7 +5,7 @@ This repo defines an **AI agent role matrix** for DDD-based software development
 ## Core content
 
 - `docs/superpowers/specs/2026-05-18-ai-agent-role-matrix-design.md` — the single authoritative spec. Read it first.
-- `package.json` contains `@opencode-ai/plugin` as the only dependency. No build, test, lint, or CI infrastructure exists.
+- `package.json` contains `@opencode-ai/plugin` as the only dependency; `.opencode/package.json` adds `markdown-it` (dev) for the artifact HTML renderer (`.opencode/scripts/md2html.js`). No build, test, lint, or CI infrastructure exists.
 
 ## Key concepts from the spec
 
@@ -29,6 +29,7 @@ This repo defines an **AI agent role matrix** for DDD-based software development
 
 - No testing framework, linter, or formatter is configured. If one is added, update this file.
 - Commits should reference the spec's role matrix (e.g., "Implements [role] responsibilities for [subdomain]").
+- After writing or updating any project artifact (CONTEXT.md, ADRs, or any template output), run `node .opencode/scripts/md2html.js` to regenerate the HTML view in `html/`. `html/` is gitignored and derived from markdown — markdown is the source of truth.
 
 ## OpenCode agents & skills
 

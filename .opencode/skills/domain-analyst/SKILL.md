@@ -60,7 +60,8 @@ A core DDD role responsible for translating stakeholder requirements into a doma
 3. **Classify subdomains** — each context is Core (differentiating), Support (enabling), or Generic (commodity)
 4. **Model the core** — aggregates, entities, value objects, domain events, domain services
 5. **Document ubiquitous language** — glossary of terms per bounded context
-6. **Pass to System Architect** — bounded context map feeds architecture decisions
+6. **Render HTML** — run `node .opencode/scripts/md2html.js` to regenerate the HTML views of artifacts (`html/` is gitignored, derived from markdown)
+7. **Pass to System Architect** — bounded context map feeds architecture decisions
 
 ## Classification criteria
 

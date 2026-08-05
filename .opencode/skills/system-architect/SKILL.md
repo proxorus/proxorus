@@ -61,7 +61,8 @@ A core DDD role responsible for ensuring architectural consistency, DDD boundary
 3. **Select tech stack** — languages, frameworks, databases, messaging per context
 4. **Define cross-cutting patterns** — error handling, logging, auth, monitoring
 5. **Write ADRs** — document every significant decision with context, options, trade-offs
-6. **Enforce boundary rules** — Core must not depend on Generic internals
+6. **Render HTML** — run `node .opencode/scripts/md2html.js` to regenerate the HTML views of artifacts (`html/` is gitignored, derived from markdown)
+7. **Enforce boundary rules** — Core must not depend on Generic internals
 
 ## Dependency rule
 

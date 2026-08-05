@@ -61,7 +61,8 @@ Translates architectural boundaries into detailed, implementable specifications.
 4. **Design interfaces** — repository interfaces, service interfaces, port definitions
 5. **Map dependencies** — record the component dependency graph (edges typed port/event/data; dependencies flow inward toward Core; Core must not depend on Generic internals)
 6. **Write design spec** — sequence diagrams for key flows, state machines for aggregates
-7. **Pass to Code Reviewer** — design is reviewed before implementation begins
+7. **Render HTML** — run `node .opencode/scripts/md2html.js` to regenerate the HTML views of artifacts (`html/` is gitignored, derived from markdown)
+8. **Pass to Code Reviewer** — design is reviewed before implementation begins
 
 ## Outputs
 

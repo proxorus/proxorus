@@ -84,6 +84,7 @@ Agents orchestrate multiple skills across a lifecycle phase. Defined in `.openco
 Utility scripts in `.opencode/scripts/`:
 
 - `branch-context.sh` — extract business logic delta from a git branch (`--base main --head feature`). Used by `onboarding-agent` in `scope: diff` mode and by `code-reviewer`'s Branch Analysis Mode.
+- `md2html.js` — regenerate the HTML view of project artifacts into `html/` (gitignored, derived from markdown). Run after writing or updating any artifact: `node .opencode/scripts/md2html.js`.
 
 ## Templates
 

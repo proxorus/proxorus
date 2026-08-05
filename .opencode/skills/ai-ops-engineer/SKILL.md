@@ -122,6 +122,7 @@ Phase: <name>
 - Model assignment recommendations per role and phase
 - Cost projection reports for Project Manager
 - Prompt optimization recommendations
+- HTML views of artifacts — run `node .opencode/scripts/md2html.js` after producing artifacts to regenerate them (`html/` is gitignored, derived from markdown)
 
 ## Experience Level Adaptation
 

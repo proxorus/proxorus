@@ -95,6 +95,7 @@ Owns estimation, team composition, token budgets, and customer communication.
 - Time estimates (both scenarios, aggregated per implementation phase)
 - Token budgets per role and phase
 - Team composition proposals
+- **Render HTML** — after producing any of the above, run `node .opencode/scripts/md2html.js` to regenerate the HTML views (`html/` is gitignored, derived from markdown)
 
 ## Experience Level Adaptation
 

@@ -2,5 +2,8 @@
   "dependencies": {
     "@mimo-ai/plugin": "0.1.4",
     "@opencode-ai/plugin": "1.17.7"
+  },
+  "devDependencies": {
+    "markdown-it": "^15.0.0"
   }
 }

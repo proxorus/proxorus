@@ -137,6 +137,8 @@ Use this mode when you need to understand what business logic was implemented in
    - **Test coverage delta:** [test files changed / assertions added]
    ```
 
+7. **Render HTML** — run `node .opencode/scripts/md2html.js` to regenerate the HTML views of artifacts (`html/` is gitignored, derived from markdown)
+
 ### When to use
 
 - Before implementing additional changes on top of an unfamiliar branch

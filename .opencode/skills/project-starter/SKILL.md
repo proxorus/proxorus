@@ -254,6 +254,7 @@ Each phase transition follows this pattern:
 - Handoff Reports at each phase boundary
 - Decision log (architectural decisions, trade-offs made)
 - Final: shipped product with monitoring
+- HTML views of artifacts — after each phase produces artifacts, run `node .opencode/scripts/md2html.js` to regenerate them (`html/` is gitignored, derived from markdown)
 
 ## Role Activation Reference
 
