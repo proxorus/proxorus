@@ -133,6 +133,13 @@ scan and the controlled failing fixture. Code Reviewer reviews the dependency,
 agnix configuration, workflow, documentation, and exception scope before
 merge. The normal project QA and Code Reviewer gates remain mandatory.
 
+### Related Work Items
+
+- Parent: [#1 — Подключить agnix для проверки конфигурации AI-агентов](https://git.evapps.ru/mprohorov/proxoroc/-/work_items/1)
+- [#16 — Проверка конфигурации AI-агентов локально](https://git.evapps.ru/mprohorov/proxoroc/-/work_items/16) — no blockers.
+- [#17 — Запуск проверки agnix в GitHub Actions](https://git.evapps.ru/mprohorov/proxoroc/-/work_items/17) — blocked by #16.
+- [#18 — Сделать проверку agnix обязательной перед merge](https://git.evapps.ru/mprohorov/proxoroc/-/work_items/18) — blocked by #17.
+
 ### Open Questions and Dependencies
 
 - **Open operational question:** who has GitHub administration access to make
