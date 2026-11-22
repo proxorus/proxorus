@@ -5,10 +5,43 @@
 ```bash
 git clone <repo-url>
 cd proxorus
+npm ci
+npm test
 cd .opencode && npm install && cd ..
 ```
 
 OpenCode will automatically load `opencode.json` and `AGENTS.md` when you open this directory.
+
+## Repository validation
+
+The root `npm test` command is the single entry point for repository checks. It
+runs agnix against the repository root, including recognized files in hidden
+directories such as `.opencode/`, then runs the permanent negative smoke test
+with Node's built-in test runner.
+
+The scan uses agnix's normal severity behavior: errors fail the command;
+warnings and informational diagnostics are reported without failing it. Strict
+mode is not enabled. The smoke test validates an isolated invalid agent skill
+outside the repository scan and checks for both an agnix diagnostic and a
+non-zero exit code.
+
+The root manifest pins agnix to `0.61.0` and narrowly permits that version's
+install script because it downloads the platform CLI. The installer verifies
+the binary archive checksum. Root validation dependencies remain separate from
+the OpenCode dependencies installed under `.opencode/`.
+
+Keep exceptions minimal. Add `.agnix.toml` only when an exception is necessary;
+scope it to the specific rule and file, and put the reason beside the
+exception. Avoid blanket directory exclusions or global rule disables.
+
+GitHub Actions runs the same `npm ci` and `npm test` checks on pull requests to
+`master` and pushes to `master`, using Ubuntu and Node.js 24. The
+`Agent config validation / validate` status check must also be required by the
+repository's branch protection or ruleset. That setting is external to this
+repository. **Blocking operational dependency:** this change does not configure
+branch protection. Before the merge gate is complete, an operator with GitHub
+repository administration access must require the `Agent config validation /
+validate` status check for merges to `master`.
 
 ## Using Skills
 

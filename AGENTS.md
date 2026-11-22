@@ -25,9 +25,14 @@ This repo defines an **AI agent role matrix** for DDD-based software development
 5. No verification gate should be skipped: Customer Sign-Off → QA → Code Reviewer are all mandatory.
 6. Estimation is produced for both human-only and agent-assisted scenarios in parallel, and only after final design documents and task decomposition exist. Team composition and headcount proposals accompany estimates. AI Ops Engineer computes token budgets per role for the agent-assisted scenario after task decomposition. Present all of these (design, decomposition, estimates, staffing, token budgets) to the customer at the Sign-Off Gate.
 
+## Build and test
+
+- Run `npm ci` at the repository root to install the validation dependency, then run `npm test` for the repository checks.
+- OpenCode dependencies remain separate; install them with `npm install` from `.opencode/`.
+
 ## Conventions
 
-- No testing framework, linter, or formatter is configured. If one is added, update this file.
+- Tests use Node's built-in `node:test`; no third-party test framework, linter, or formatter is configured.
 - Commits should reference the spec's role matrix (e.g., "Implements [role] responsibilities for [subdomain]").
 - After writing or updating any project artifact (CONTEXT.md, ADRs, or any template output), run `node .opencode/scripts/md2html.js` to regenerate the HTML view in `html/`. `html/` is gitignored and derived from markdown — markdown is the source of truth.
 
@@ -75,5 +80,3 @@ Seven subagents implement the lifecycle groups; twelve skills encode individual 
 ## Skill usage requirement
 
 All agents must load the appropriate skill from `.opencode/skills/` before performing work in any role. Skills are the single source of truth for role procedures — do not infer workflows, checklists, or quality criteria from general knowledge.
-
-

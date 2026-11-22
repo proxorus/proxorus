@@ -17,8 +17,14 @@ A methodology playbook that defines a **hybrid role-based architecture** for AI-
 ```bash
 git clone <repo-url>
 cd proxorus
+npm ci
+npm test
 cd .opencode && npm install && cd ..
 ```
+
+`npm test` validates repository AI-agent configuration and runs the negative
+validation smoke test. See `USAGE.md` for details and the GitHub Actions merge
+gate.
 
 ### Starting a project
 
